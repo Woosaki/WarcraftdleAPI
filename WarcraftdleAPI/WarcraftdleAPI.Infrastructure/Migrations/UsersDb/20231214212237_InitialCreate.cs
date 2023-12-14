@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WarcraftdleAPI.Infrastructure.Migrations
+namespace WarcraftdleAPI.Infrastructure.Migrations.UsersDb
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

@@ -7,4 +7,11 @@ public class UsersDbContext(DbContextOptions<UsersDbContext> options) : DbContex
 {
 	public DbSet<User> User { get; set; }
 	public DbSet<Role> Role { get; set; }
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.Entity<Role>().HasData(
+			new Role { Id = 1, Name = "User" },
+			new Role { Id = 2, Name = "Admin" });
+	}
 }

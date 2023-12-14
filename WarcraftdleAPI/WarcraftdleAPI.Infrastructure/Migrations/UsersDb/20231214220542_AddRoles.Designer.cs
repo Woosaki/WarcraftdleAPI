@@ -9,11 +9,11 @@ using WarcraftdleAPI.Infrastructure;
 
 #nullable disable
 
-namespace WarcraftdleAPI.Infrastructure.Migrations
+namespace WarcraftdleAPI.Infrastructure.Migrations.UsersDb
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20231214212237_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231214220542_AddRoles")]
+    partial class AddRoles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,18 @@ namespace WarcraftdleAPI.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("WarcraftdleAPI.Domain.User.Statistics", b =>
