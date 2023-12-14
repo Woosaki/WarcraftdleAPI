@@ -8,4 +8,5 @@ public class User
 	public string Password { get; set; } = null!;
 	public DateTime CreatedAt { get; set; }
 	public Role Role { get; set; } = null!;
+	public Statistics Statistics { get; set; } = null!;
 }
