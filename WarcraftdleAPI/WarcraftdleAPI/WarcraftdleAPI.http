@@ -1,0 +1,6 @@
+@WarcraftdleAPI_HostAddress = http://localhost:5178
+
+GET {{WarcraftdleAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
