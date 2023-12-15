@@ -22,30 +22,52 @@ public static class Program
 			options => options.UseSqlServer(characterConnectionString));
 	}
 
-	public static void Main(string[] args)
+	private static void ConfigureServices(this WebApplicationBuilder builder)
 	{
-		var builder = WebApplication.CreateBuilder(args);
-		builder.ConfigureDatabase();
-		builder.Services.AddScoped<IWowCharacterService, WowCharacterService>();
 		builder.Services.AddControllers();
-		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-		builder.Services.AddScoped<IValidator<CharacterAddRequest>, CharacterAddRequestValidator>();
+
+		builder.Services.AddScoped<IWowCharacterService, WowCharacterService>();
+
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
+	}
 
-		var app = builder.Build();
+	private static void ConfigureFluentValidation(this WebApplicationBuilder builder)
+	{
+		builder.Services.AddFluentValidationAutoValidation();
+		builder.Services.AddFluentValidationClientsideAdapters();
 
+		builder.Services.AddScoped<IValidator<CharacterAddRequest>, CharacterAddRequestValidator>();
+	}
+
+	private static void ConfigureMiddlewarePipeline(this WebApplication app)
+	{
 		if (app.Environment.IsDevelopment())
 		{
 			app.UseSwagger();
 			app.UseSwaggerUI();
 		}
-
+		app.UseHsts();
 		app.UseHttpsRedirection();
-
+		app.UseRouting();
 		app.UseAuthorization();
+	}
 
+	private static void ConfigureRoutes(this WebApplication app)
+	{
 		app.MapControllers();
+	}
+
+	public static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
+		builder.ConfigureDatabase();
+		builder.ConfigureServices();
+		builder.ConfigureFluentValidation();	
+
+		var app = builder.Build();
+		app.ConfigureMiddlewarePipeline();
+		app.ConfigureRoutes();
 
 		app.Run();
 	}
