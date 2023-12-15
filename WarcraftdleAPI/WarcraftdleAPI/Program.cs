@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using WarcraftdleAPI.Application.Services;
+using WarcraftdleAPI.Domain.Interfaces;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI;
@@ -20,7 +22,7 @@ public static class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 		builder.ConfigureDatabase();
-
+		builder.Services.AddScoped<IWowCharacterService, WowCharacterService>();
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();

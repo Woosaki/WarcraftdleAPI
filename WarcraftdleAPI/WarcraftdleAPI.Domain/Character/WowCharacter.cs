@@ -1,4 +1,4 @@
-﻿namespace WarcraftdleAPI.Domain.WowCharacter;
+﻿namespace WarcraftdleAPI.Domain.Character;
 
 public class WowCharacter
 {

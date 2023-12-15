@@ -1,6 +1,6 @@
-﻿namespace WarcraftdleAPI.Domain.WowCharacter;
+﻿namespace WarcraftdleAPI.Domain.Character;
 
-public class Zone
+public class Affiliation
 {
 	public int Id { get; set; }
 	public string Name { get; set; } = null!;
