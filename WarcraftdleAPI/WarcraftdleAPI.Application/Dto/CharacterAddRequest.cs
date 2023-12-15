@@ -1,12 +1,14 @@
-﻿namespace WarcraftdleAPI.Application.Dto;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WarcraftdleAPI.Application.Dto;
 
 public record CharacterAddRequest (
 	string Name,
-	string Photo,
+	[Url] string Photo,
 	string Gender,
 	string Race,
 	string? Class, 
 	ICollection<string> Expansions,
 	ICollection<string> Affiliations,
 	ICollection<string> Zones
-	);;
+	);

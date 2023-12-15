@@ -1,6 +1,10 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using WarcraftdleAPI.Application.Dto;
 using WarcraftdleAPI.Application.Interfaces;
 using WarcraftdleAPI.Application.Services;
+using WarcraftdleAPI.Application.Validators;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI;
@@ -24,6 +28,8 @@ public static class Program
 		builder.ConfigureDatabase();
 		builder.Services.AddScoped<IWowCharacterService, WowCharacterService>();
 		builder.Services.AddControllers();
+		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+		builder.Services.AddScoped<IValidator<CharacterAddRequest>, CharacterAddRequestValidator>();
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
 
