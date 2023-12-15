@@ -28,8 +28,8 @@ public class WowCharacterController(IWowCharacterService service) : ControllerBa
 	[HttpPost]
 	public async Task<IActionResult> AddAsync(CharacterAddRequest request)
 	{
-		await service.AddAsync(request);
+		var characterId = await service.AddAsync(request);
 
-		return Ok();
+		return Created(characterId.ToString(), null);
 	}
 }

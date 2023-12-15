@@ -27,6 +27,7 @@ public static class Program
 		builder.Services.AddControllers();
 
 		builder.Services.AddScoped<IWowCharacterService, WowCharacterService>();
+		builder.Services.AddScoped<IAffiliationService, AffiliationService>();
 
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();

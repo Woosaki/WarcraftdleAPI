@@ -5,7 +5,7 @@ namespace WarcraftdleAPI.Application.Interfaces;
 
 public interface IWowCharacterService
 {
-	Task AddAsync(CharacterAddRequest request);
+	Task<int> AddAsync(CharacterAddRequest request);
 	Task<IEnumerable<WowCharacter>> GetAsync();
 	Task<WowCharacter> GetByIdAsync(int id);
 }

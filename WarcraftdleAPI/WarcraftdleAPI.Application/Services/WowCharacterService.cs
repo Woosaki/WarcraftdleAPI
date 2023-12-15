@@ -23,8 +23,10 @@ public class WowCharacterService(WowCharactersDbContext dbContext) : IWowCharact
 		return character;
 	}
 
-	public async Task AddAsync(CharacterAddRequest request)
+	public async Task<int> AddAsync(CharacterAddRequest request)
 	{
 		await dbContext.SaveChangesAsync();
+
+		return 0;
 	}
 }
