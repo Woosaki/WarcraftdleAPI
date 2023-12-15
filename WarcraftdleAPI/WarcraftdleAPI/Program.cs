@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using WarcraftdleAPI.Application.Interfaces;
 using WarcraftdleAPI.Application.Services;
-using WarcraftdleAPI.Domain.Interfaces;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI;

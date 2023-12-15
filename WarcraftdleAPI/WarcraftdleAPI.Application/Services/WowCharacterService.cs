@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WarcraftdleAPI.Domain.Interfaces;
 using WarcraftdleAPI.Domain.Character;
 using WarcraftdleAPI.Infrastructure;
+using WarcraftdleAPI.Application.Interfaces;
+using WarcraftdleAPI.Application.Dto;
 
 namespace WarcraftdleAPI.Application.Services;
 
@@ -20,5 +21,10 @@ public class WowCharacterService(WowCharactersDbContext dbContext) : IWowCharact
 			.FirstOrDefaultAsync(x => x.Id == id);
 
 		return character;
+	}
+
+	public async Task AddAsync(CharacterAddRequest request)
+	{
+		await dbContext.SaveChangesAsync();
 	}
 }

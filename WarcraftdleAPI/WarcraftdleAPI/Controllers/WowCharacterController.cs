@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WarcraftdleAPI.Application.Dto;
+using WarcraftdleAPI.Application.Interfaces;
 using WarcraftdleAPI.Domain.Character;
-using WarcraftdleAPI.Domain.Interfaces;
 
 namespace WarcraftdleAPI.Controllers;
 
@@ -22,5 +23,13 @@ public class WowCharacterController(IWowCharacterService service) : ControllerBa
 		var character = await service.GetByIdAsync(id);
 
 		return Ok(character);
+	}
+
+	[HttpPost]
+	public async Task<IActionResult> AddAsync(CharacterAddRequest request)
+	{
+		await service.AddAsync(request);
+
+		return Ok();
 	}
 }
