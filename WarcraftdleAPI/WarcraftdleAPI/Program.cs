@@ -7,13 +7,10 @@ public static class Program
 {
 	private static void ConfigureDatabase(this WebApplicationBuilder builder)
 	{
-		var userConnectionString = builder.Configuration.GetConnectionString("UserConnectionString");
-		builder.Services.AddDbContext<UsersDbContext>(
-			options => options.UseSqlServer(userConnectionString));
 
-		var characterConnectionString = builder.Configuration.GetConnectionString("CharacterConnectionString");
-		builder.Services.AddDbContext<WowCharactersDbContext>(
-			options => options.UseSqlServer(characterConnectionString));
+		var connectionString = builder.Configuration.GetConnectionString("CharacterConnectionString");
+		builder.Services.AddDbContext<WarcraftdleDbContext>(
+			options => options.UseSqlServer(connectionString));
 	}
 
 	public static void Main(string[] args)

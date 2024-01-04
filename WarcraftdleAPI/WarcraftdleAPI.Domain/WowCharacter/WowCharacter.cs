@@ -8,7 +8,7 @@ public class WowCharacter
 	public Gender Gender { get; set; } = null!;
 	public Race Race { get; set; } = null!;
 	public Class? Class { get; set; }
-	public ICollection<Expansion> Expansions { get; set; } = null!;
-	public ICollection<Affiliation> Affiliations { get; set; } = null!;
-	public ICollection<Zone> Zones { get; set; } = null!;
+	public IEnumerable<Expansion> Expansions { get; set; } = null!;
+	public IEnumerable<Affiliation> Affiliations { get; set; } = null!;
+	public IEnumerable<Zone> Zones { get; set; } = null!;
 }
