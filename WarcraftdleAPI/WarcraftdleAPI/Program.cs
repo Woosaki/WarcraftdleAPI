@@ -7,10 +7,20 @@ public static class Program
 {
 	private static void ConfigureDatabase(this WebApplicationBuilder builder)
 	{
-
-		var connectionString = builder.Configuration.GetConnectionString("CharacterConnectionString");
+		var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 		builder.Services.AddDbContext<WarcraftdleDbContext>(
-			options => options.UseSqlServer(connectionString));
+			options => options.UseNpgsql(connectionString));
+	}
+
+	private static void MigrateDatabase(this WebApplication app)
+	{
+		using var scope = app.Services.CreateScope();
+		var db = scope.ServiceProvider.GetRequiredService<WarcraftdleDbContext>();
+
+		if (db.Database.GetPendingMigrations().Any())
+		{
+			db.Database.Migrate();
+		}
 	}
 
 	public static void Main(string[] args)
@@ -30,11 +40,10 @@ public static class Program
 			app.UseSwaggerUI();
 		}
 
-		app.UseHttpsRedirection();
-
 		app.UseAuthorization();
-
 		app.MapControllers();
+
+		app.MigrateDatabase();
 
 		app.Run();
 	}
