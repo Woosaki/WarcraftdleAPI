@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Net;
+using WarcraftdleAPI.Domain.Exceptions;
 using WarcraftdleAPI.Domain.WowCharacter;
 using WarcraftdleAPI.Infrastructure;
 
@@ -15,7 +17,8 @@ public class AffiliationService(WarcraftdleDbContext dbContext)
 
 	public async Task<Affiliation> GetByIdAsync(int id)
 	{
-		var affiliation = await dbContext.Affiliation.FirstOrDefaultAsync(x => x.Id == id);
+		var affiliation = await dbContext.Affiliation.FirstOrDefaultAsync(x => x.Id == id)
+			?? throw new ApiException($"Affiliation with id {id} could not be found", HttpStatusCode.NotFound);
 
 		return affiliation;
 	}
