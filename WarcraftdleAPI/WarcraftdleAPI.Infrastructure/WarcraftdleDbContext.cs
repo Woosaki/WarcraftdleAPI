@@ -3,7 +3,7 @@ using WarcraftdleAPI.Domain.WowCharacter;
 
 namespace WarcraftdleAPI.Infrastructure;
 
-public class WowCharactersDbContext(DbContextOptions<WowCharactersDbContext> options) : DbContext(options)
+public class WarcraftdleDbContext(DbContextOptions<WarcraftdleDbContext> options) : DbContext(options)
 {
 	public DbSet<WowCharacter> WowCharacter { get; set; }
 	public DbSet<Race> Race { get; set; }
