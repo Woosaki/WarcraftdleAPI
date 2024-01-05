@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+    postgres:
+        restart: always
+        image: postgres:15.4-alpine3.18
+        container_name: postgres
+        environment:
+            - POSTGRES_USER=warcraftdle
+            - POSTGRES_PASSWORD=myStrong_Password123#
+            - POSTGRES_DB=WarcraftdleDB
+        networks:
+            - default_network
+        volumes:
+            - ./warcraftdle-db:/var/lib/postgresql/data
+
+    warcraftdleapi:
+        restart: always
+        image: ${DOCKER_REGISTRY-}warcraftdleapi
+        container_name: warcraftdle-api
+        build:
+            context: .
+            dockerfile: WarcraftdleAPI/Dockerfile
+        networks:
+            - default_network
+        depends_on:
+            - postgres
+ 
+networks:
+    default_network:

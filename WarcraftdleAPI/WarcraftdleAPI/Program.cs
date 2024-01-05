@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI;
@@ -28,6 +29,8 @@ public static class Program
 		var builder = WebApplication.CreateBuilder(args);
 		builder.ConfigureDatabase();
 
+		builder.Services.AddScoped<AffiliationService>();
+
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
@@ -39,7 +42,7 @@ public static class Program
 			app.UseSwagger();
 			app.UseSwaggerUI();
 		}
-
+		app.UseHttpsRedirection();
 		app.UseAuthorization();
 		app.MapControllers();
 

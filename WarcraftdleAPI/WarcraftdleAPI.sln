@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarcraftdleAPI.Domain", "Wa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarcraftdleAPI.Infrastructure", "WarcraftdleAPI.Infrastructure\WarcraftdleAPI.Infrastructure.csproj", "{E754C544-BDEF-48E7-B662-08137FFE893B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarcraftdleAPI.Application", "WarcraftdleAPI.Application\WarcraftdleAPI.Application.csproj", "{BC20A2AC-366C-4BA0-8CC4-18552133FBF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarcraftdleAPI.Application", "WarcraftdleAPI.Application\WarcraftdleAPI.Application.csproj", "{BC20A2AC-366C-4BA0-8CC4-18552133FBF5}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F409B09E-0D38-4381-9D52-343EE4560CB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BC20A2AC-366C-4BA0-8CC4-18552133FBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC20A2AC-366C-4BA0-8CC4-18552133FBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC20A2AC-366C-4BA0-8CC4-18552133FBF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
