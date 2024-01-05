@@ -1,10 +1,10 @@
 version: '3.4'
 
 services:
-    postgres:
+    warcraftdlepostgres:
         restart: always
         image: postgres:15.4-alpine3.18
-        container_name: postgres
+        container_name: warcraftdle-postgres
         environment:
             - POSTGRES_USER=warcraftdle
             - POSTGRES_PASSWORD=myStrong_Password123#
@@ -24,7 +24,7 @@ services:
         networks:
             - default_network
         depends_on:
-            - postgres
+            - warcraftdlepostgres
  
 networks:
     default_network:
