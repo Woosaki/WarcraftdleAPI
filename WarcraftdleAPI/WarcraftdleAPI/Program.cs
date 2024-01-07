@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Infrastructure;
+using WarcraftdleAPI.Middlewares;
 
 namespace WarcraftdleAPI;
 
@@ -43,7 +44,9 @@ public static class Program
 			app.UseSwagger();
 			app.UseSwaggerUI();
 		}
-		app.UseHttpsRedirection();
+		
+		app.UseMiddleware<ExceptionHandlerMiddleware>();
+
 		app.UseAuthorization();
 		app.MapControllers();
 
