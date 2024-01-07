@@ -32,6 +32,7 @@ public static class Program
 
 		builder.Services.AddScoped<AffiliationService>();
 		builder.Services.AddScoped<ZoneService>();
+		builder.Services.AddScoped<WowCharacterService>();
 
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
