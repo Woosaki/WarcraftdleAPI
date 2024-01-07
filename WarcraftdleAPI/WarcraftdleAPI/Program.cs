@@ -30,6 +30,7 @@ public static class Program
 		builder.ConfigureDatabase();
 
 		builder.Services.AddScoped<AffiliationService>();
+		builder.Services.AddScoped<ZoneService>();
 
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();
