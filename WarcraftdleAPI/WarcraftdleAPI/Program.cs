@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using WarcraftdleAPI.Application.Dtos.WowCharacter;
 using WarcraftdleAPI.Application.Services;
@@ -37,6 +38,8 @@ public static class Program
 		builder.Services.AddScoped<ZoneService>();
 		builder.Services.AddScoped<WowCharacterService>();
 
+
+		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 		builder.Services.AddTransient<IValidator<AddWowCharacterRequest>, AddWowCharacterRequestValidator>();
 
 		builder.Services.AddControllers();

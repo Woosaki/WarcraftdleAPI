@@ -14,25 +14,41 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
     {
 		_dbContext = dbContext;
 
+		RuleFor(request => request.Name)
+			.NotEmpty().WithMessage("{PropertyName} field cannot be empty")
+			.Must(BeValidName).WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.");
+
 		RuleFor(request => request.Gender)
-			.Must(name => _validGenderNames.Contains(name))
-			.WithMessage("Invalid gender: {PropertyValue}");
+			.Must(gender => _validGenderNames.Contains(gender))
+			.WithMessage("Invalid {PropertyName}: {PropertyValue}");
 
 		RuleFor(request => request.Race)
-			.Must(name => _validRaceNames.Contains(name))
-			.WithMessage("Invalid race: {PropertyValue}");
+			.Must(race => _validRaceNames.Contains(race))
+			.WithMessage("Invalid {PropertyName}: {PropertyValue}");
 
 		RuleFor(request => request.Class)
-			.Must(name => _validClassNames.Contains(name))
-			.WithMessage("Invalid class: {PropertyValue}");
+			.Must(BeValidClass)
+			.WithMessage("Invalid {PropertyName}: {PropertyValue}");
+
+		RuleFor(request => request.Expansions)
+			.Must(expansions => expansions.Any())
+			.WithMessage("{PropertyName} must contain at least one item");
 
 		RuleForEach(request => request.Expansions)
-			.Must(name => _validExpansionNames.Contains(name))
-			.WithMessage("Invalid expansion: {PropertyValue}");
+			.Must(expansion => _validExpansionNames.Contains(expansion))
+			.WithMessage("Invalid Expansion: {PropertyValue}");
+
+		RuleFor(request => request.Affiliations)
+			.Must(affiliations => affiliations.Any())
+			.WithMessage("{PropertyName} must contain at least one item");
 
 		RuleForEach(request => request.Affiliations)
 			.Must(ExistInDatabase<Affiliation>)
 			.WithMessage("Affiliation not found: {PropertyValue}");
+
+		RuleFor(request => request.Zones)
+			.Must(zones => zones.Any())
+			.WithMessage("{PropertyName} must contain at least one item");
 
 		RuleForEach(request => request.Zones)
 			.Must(ExistInDatabase<Zone>)
@@ -89,6 +105,36 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 		"Shadowlands",
 		"Dragonflight"
 	];
+
+	private bool BeValidName(string name)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+		{
+			return false;
+		}
+
+		var words = name.Split(' ');
+
+        foreach (var word in words)
+        {
+			if (!char.IsUpper(word[0]) || !word[1..].All(char.IsLower))
+			{
+				return false;
+			}
+        }
+
+        return true;
+	}
+
+	private bool BeValidClass(string? @class) 
+	{
+		if (@class == null) 
+		{
+			return true; 
+		}
+
+		return !string.IsNullOrWhiteSpace(@class) && _validClassNames.Contains(@class);
+	}
 
 	private bool ExistInDatabase<T>(string name) where T : class
 	{

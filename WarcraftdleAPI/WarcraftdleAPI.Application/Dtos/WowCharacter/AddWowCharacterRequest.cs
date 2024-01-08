@@ -4,12 +4,12 @@ namespace WarcraftdleAPI.Application.Dtos.WowCharacter;
 
 public record AddWowCharacterRequest
 (
-	[Required] string Name,
-	[Required] string Photo,
-	[Required] string Gender,
-	[Required] string Race,
+	string Name,
+	[Url] string Photo,
+	string Gender,
+	string Race,
 	string? Class,
-	[Required] IEnumerable<string> Expansions,
-	[Required] IEnumerable<string> Affiliations,
-	[Required] IEnumerable<string> Zones
+	IEnumerable<string> Expansions,
+	IEnumerable<string> Affiliations,
+	IEnumerable<string> Zones
 );
