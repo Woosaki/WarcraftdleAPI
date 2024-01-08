@@ -1,5 +1,8 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using WarcraftdleAPI.Application.Dtos.WowCharacter;
 using WarcraftdleAPI.Application.Services;
+using WarcraftdleAPI.Application.Validators;
 using WarcraftdleAPI.Infrastructure;
 using WarcraftdleAPI.Middlewares;
 
@@ -33,6 +36,8 @@ public static class Program
 		builder.Services.AddScoped<AffiliationService>();
 		builder.Services.AddScoped<ZoneService>();
 		builder.Services.AddScoped<WowCharacterService>();
+
+		builder.Services.AddTransient<IValidator<AddWowCharacterRequest>, AddWowCharacterRequestValidator>();
 
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();

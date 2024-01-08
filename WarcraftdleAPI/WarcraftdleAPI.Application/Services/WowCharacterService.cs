@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
-using WarcraftdleAPI.Application.Dto.WowCharacter;
+using WarcraftdleAPI.Application.Dtos.WowCharacter;
 using WarcraftdleAPI.Domain.Exceptions;
 using WarcraftdleAPI.Domain.WowCharacter;
 using WarcraftdleAPI.Infrastructure;
@@ -26,10 +26,24 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 
 	public async Task<int> AddAsync(AddWowCharacterRequest request)
 	{
-		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Name)
-			?? throw new ApiException($"Gender {request.Name} could not be found", HttpStatusCode.NotFound);
-		var race = await dbContext.Race.FirstOrDefaultAsync(x => x.Name == request.Name)
-			?? throw new ApiException($"Race {request.Name} could not be found", HttpStatusCode.NotFound);
+		var affiliationNames = await dbContext.Affiliation.Select(x => x.Name).ToListAsync();
+		var missingAffiliations = request.Affiliations.Except(affiliationNames).ToList();
+		if (missingAffiliations.Count != 0)
+		{
+			string missingAffiliationsString = string.Join(", ", missingAffiliations);
+			throw new ApiException($"Affiliations not found: {missingAffiliationsString}", HttpStatusCode.BadRequest);
+		}
+
+		var zoneNames = await dbContext.Zone.Select(x => x.Name).ToListAsync();
+		var missingZones = request.Zones.Except(zoneNames).ToList();
+		if (missingZones.Count != 0)
+		{
+			string missingZonesString = string.Join(", ", missingZones);
+			throw new ApiException($"Zones not found: {missingZonesString}", HttpStatusCode.BadRequest);
+		}
+
+		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Name);
+		var race = await dbContext.Race.FirstOrDefaultAsync(x => x.Name == request.Name);
 		var @class = await dbContext.Class.FirstOrDefaultAsync(x => x.Name == request.Name);
 		var expansions = await dbContext.Expansion.Where(x => request.Expansions.Contains(x.Name)).ToListAsync();
 		var affiliations = await dbContext.Affiliation.Where(x => request.Affiliations.Contains(x.Name)).ToListAsync();
@@ -39,8 +53,8 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 		{ 
 			Name = request.Name,
 			Photo = request.Photo,
-			Gender = gender,
-			Race = race,
+			Gender = gender!,
+			Race = race!,
 			Class = @class,
 			Expansions = expansions,
 			Affiliations = affiliations,

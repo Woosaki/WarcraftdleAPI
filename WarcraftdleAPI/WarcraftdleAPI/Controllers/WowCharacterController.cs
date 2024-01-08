@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WarcraftdleAPI.Application.Dtos.WowCharacter;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Domain.WowCharacter;
 
@@ -25,9 +26,9 @@ public class WowCharacterController(WowCharacterService wowCharacterService) : C
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Add([FromBody] string name)
+	public async Task<IActionResult> Add([FromBody] AddWowCharacterRequest request)
 	{
-		var wowCharacterId = await wowCharacterService.AddAsync(name);
+		var wowCharacterId = await wowCharacterService.AddAsync(request);
 
 		var controllerName = ControllerContext.ActionDescriptor.ControllerName;
 		var url = $"/{controllerName}/{wowCharacterId}";

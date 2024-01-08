@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WarcraftdleAPI.Domain\WarcraftdleAPI.Domain.csproj" />
     <ProjectReference Include="..\WarcraftdleAPI.Infrastructure\WarcraftdleAPI.Infrastructure.csproj" />
   </ItemGroup>

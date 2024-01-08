@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WarcraftdleAPI.Application.Dto.WowCharacter;
+namespace WarcraftdleAPI.Application.Dtos.WowCharacter;
 
 public record AddWowCharacterRequest
 (
