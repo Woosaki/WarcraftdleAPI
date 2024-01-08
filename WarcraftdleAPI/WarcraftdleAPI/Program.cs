@@ -18,6 +18,34 @@ public static class Program
 			options => options.UseNpgsql(connectionString));
 	}
 
+	private static void ConfigureServices(this WebApplicationBuilder builder)
+	{
+		builder.Services.AddScoped<AffiliationService>();
+		builder.Services.AddScoped<ZoneService>();
+		builder.Services.AddScoped<WowCharacterService>();
+
+		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+		builder.Services.AddTransient<IValidator<AddWowCharacterRequest>, AddWowCharacterRequestValidator>();
+
+		builder.Services.AddControllers();
+		builder.Services.AddEndpointsApiExplorer();
+		builder.Services.AddSwaggerGen();
+	}
+
+	private static void ConfigureSwagger(this WebApplication app)
+	{
+		if (app.Environment.IsDevelopment())
+		{
+			app.UseSwagger();
+			app.UseSwaggerUI();
+		}
+	}
+
+	private static void ConfigureMiddleware(this WebApplication app)
+	{
+		app.UseMiddleware<ExceptionHandlerMiddleware>();
+	}
+
 	private static void MigrateDatabase(this WebApplication app)
 	{
 		using var scope = app.Services.CreateScope();
@@ -33,28 +61,12 @@ public static class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 		builder.ConfigureDatabase();
-
-		builder.Services.AddScoped<AffiliationService>();
-		builder.Services.AddScoped<ZoneService>();
-		builder.Services.AddScoped<WowCharacterService>();
-
-
-		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-		builder.Services.AddTransient<IValidator<AddWowCharacterRequest>, AddWowCharacterRequestValidator>();
-
-		builder.Services.AddControllers();
-		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.AddSwaggerGen();
+		builder.ConfigureServices();
 
 		var app = builder.Build();
 
-		if (app.Environment.IsDevelopment())
-		{
-			app.UseSwagger();
-			app.UseSwaggerUI();
-		}
-		
-		app.UseMiddleware<ExceptionHandlerMiddleware>();
+		app.ConfigureSwagger();
+		app.ConfigureMiddleware();
 
 		app.UseAuthorization();
 		app.MapControllers();

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections;
+﻿using Microsoft.AspNetCore.Mvc;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Domain.WowCharacter;
 
