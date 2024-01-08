@@ -26,9 +26,9 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 
 	public async Task<int> AddAsync(AddWowCharacterRequest request)
 	{
-		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Name);
-		var race = await dbContext.Race.FirstOrDefaultAsync(x => x.Name == request.Name);
-		var @class = await dbContext.Class.FirstOrDefaultAsync(x => x.Name == request.Name);
+		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Gender);
+		var race = await dbContext.Race.FirstOrDefaultAsync(x => x.Name == request.Race);
+		var @class = await dbContext.Class.FirstOrDefaultAsync(x => x.Name == request.Class);
 		var expansions = await dbContext.Expansion.Where(x => request.Expansions.Contains(x.Name)).ToListAsync();
 		var affiliations = await dbContext.Affiliation.Where(x => request.Affiliations.Contains(x.Name)).ToListAsync();
 		var zones = await dbContext.Zone.Where(x => request.Zones.Contains(x.Name)).ToListAsync();
