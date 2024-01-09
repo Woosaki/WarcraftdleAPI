@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WarcraftdleAPI.Application.Dtos.WowCharacter;
 using WarcraftdleAPI.Application.Services;
-using WarcraftdleAPI.Domain.WowCharacter;
 
 namespace WarcraftdleAPI.Controllers;
 
@@ -10,7 +9,7 @@ namespace WarcraftdleAPI.Controllers;
 public class WowCharacterController(WowCharacterService wowCharacterService) : ControllerBase
 {
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<Zone>>> Get()
+	public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get()
 	{
 		var wowCharacters = await wowCharacterService.GetAsync();
 
@@ -18,7 +17,7 @@ public class WowCharacterController(WowCharacterService wowCharacterService) : C
 	}
 
 	[HttpGet("{id}")]
-	public async Task<ActionResult<Zone>> GetById(int id)
+	public async Task<ActionResult<WowCharacterDto>> GetById(int id)
 	{
 		var wowCharacter = await wowCharacterService.GetByIdAsync(id);
 

@@ -9,19 +9,46 @@ namespace WarcraftdleAPI.Application.Services;
 
 public class WowCharacterService(WarcraftdleDbContext dbContext)
 {
-	public async Task<IEnumerable<WowCharacter>> GetAsync()
+	public async Task<IEnumerable<WowCharacterDto>> GetAsync()
 	{
-		var wowCharacters = await dbContext.WowCharacter.ToListAsync();
+		var wowCharactersDtos = await dbContext.WowCharacter
+			.Select(x => new WowCharacterDto
+			(
+				x.Id,
+				x.Name,
+				x.Photo,
+				x.Gender.Name,
+				x.Race.Name,
+				x.Class!.Name,
+				x.Expansions.Select(e => e.Name).ToList(),
+				x.Affiliations.Select(a => a.Name).ToList(),
+				x.Zones.Select(z => z.Name).ToList()
+			))
+			.ToListAsync();
 
-		return wowCharacters;
+		return wowCharactersDtos;
 	}
 
-	public async Task<WowCharacter> GetByIdAsync(int id)
+	public async Task<WowCharacterDto> GetByIdAsync(int id)
 	{
-		var wowCharacter = await dbContext.WowCharacter.FirstOrDefaultAsync(x => x.Id == id)
+		var wowCharacterDto = await dbContext.WowCharacter
+			.Where(x => x.Id == id)
+			.Select(x => new WowCharacterDto
+			(
+				x.Id,
+				x.Name,
+				x.Photo,
+				x.Gender.Name,
+				x.Race.Name,
+				x.Class!.Name,
+				x.Expansions.Select(e => e.Name).ToList(),
+				x.Affiliations.Select(a => a.Name).ToList(),
+				x.Zones.Select(z => z.Name).ToList()
+			))
+			.FirstOrDefaultAsync()
 			?? throw new ApiException($"WowCharacter with id {id} could not be found", HttpStatusCode.NotFound);
 
-		return wowCharacter;
+		return wowCharacterDto;
 	}
 
 	public async Task<int> AddAsync(AddWowCharacterRequest request)
