@@ -1,11 +1,13 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using WarcraftdleAPI.Application.Dtos.Affiliation;
-using WarcraftdleAPI.Application.Dtos.WowCharacter;
-using WarcraftdleAPI.Application.Dtos.Zone;
+using WarcraftdleAPI.Application.Dtos.Affiliations;
+using WarcraftdleAPI.Application.Dtos.WowCharacters;
+using WarcraftdleAPI.Application.Dtos.Zones;
 using WarcraftdleAPI.Application.Services;
-using WarcraftdleAPI.Application.Validators;
+using WarcraftdleAPI.Application.Validators.Affiliations;
+using WarcraftdleAPI.Application.Validators.WowCharacters;
+using WarcraftdleAPI.Application.Validators.Zones;
 using WarcraftdleAPI.Infrastructure;
 using WarcraftdleAPI.Middlewares;
 

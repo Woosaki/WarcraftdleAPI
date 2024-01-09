@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WarcraftdleAPI.Application.Dtos.Affiliation;
+using WarcraftdleAPI.Application.Dtos.Affiliations;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Domain.WowCharacter;
 

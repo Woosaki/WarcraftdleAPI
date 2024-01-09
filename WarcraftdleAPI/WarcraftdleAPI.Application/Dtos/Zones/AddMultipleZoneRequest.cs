@@ -1,4 +1,4 @@
-﻿namespace WarcraftdleAPI.Application.Dtos.Zone;
+﻿namespace WarcraftdleAPI.Application.Dtos.Zones;
 
 public record AddMultipleZoneRequest
 (

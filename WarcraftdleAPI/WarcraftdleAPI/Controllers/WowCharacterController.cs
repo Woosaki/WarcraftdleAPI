@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WarcraftdleAPI.Application.Dtos.WowCharacter;
+using WarcraftdleAPI.Application.Dtos.WowCharacters;
 using WarcraftdleAPI.Application.Services;
 
 namespace WarcraftdleAPI.Controllers;

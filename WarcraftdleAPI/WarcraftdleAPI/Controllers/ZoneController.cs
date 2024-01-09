@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WarcraftdleAPI.Application.Dtos.Zone;
+using WarcraftdleAPI.Application.Dtos.Zones;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Domain.WowCharacter;
 

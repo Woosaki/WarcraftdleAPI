@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
-using WarcraftdleAPI.Application.Dtos.Zone;
-using WarcraftdleAPI.Application.Validators;
+using WarcraftdleAPI.Application.Dtos.Zones;
 using WarcraftdleAPI.Domain.Exceptions;
 using WarcraftdleAPI.Domain.WowCharacter;
 using WarcraftdleAPI.Infrastructure;

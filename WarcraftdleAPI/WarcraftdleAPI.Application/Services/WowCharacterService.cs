@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
-using WarcraftdleAPI.Application.Dtos.WowCharacter;
+using WarcraftdleAPI.Application.Dtos.WowCharacters;
 using WarcraftdleAPI.Domain.Exceptions;
 using WarcraftdleAPI.Domain.WowCharacter;
 using WarcraftdleAPI.Infrastructure;

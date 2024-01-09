@@ -1,4 +1,4 @@
-﻿namespace WarcraftdleAPI.Application.Dtos.Affiliation;
+﻿namespace WarcraftdleAPI.Application.Dtos.Affiliations;
 
 public record AddMultipleAffiliationRequest
 (

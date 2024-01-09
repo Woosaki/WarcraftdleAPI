@@ -1,4 +1,4 @@
-﻿namespace WarcraftdleAPI.Application.Dtos.WowCharacter;
+﻿namespace WarcraftdleAPI.Application.Dtos.WowCharacters;
 
 public record WowCharacterDto
 (
