@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Xml.Linq;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI.Application.Validators;

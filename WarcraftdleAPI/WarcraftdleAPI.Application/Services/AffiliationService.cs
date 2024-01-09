@@ -25,16 +25,6 @@ public class AffiliationService(WarcraftdleDbContext dbContext)
 
 	public async Task<int> AddAsync(string name)
 	{
-		if (string.IsNullOrWhiteSpace(name))
-		{
-			throw new ApiException($"Name must be specified", HttpStatusCode.BadRequest);
-		}
-
-		if (await dbContext.Affiliation.AnyAsync(x => x.Name == name))
-		{
-			throw new ApiException($"Affiliation with name {name} already exists", HttpStatusCode.BadRequest);
-		}
-
 		var affiliation = new Affiliation { Name = name };
 
 		await dbContext.Affiliation.AddAsync(affiliation);
