@@ -25,7 +25,7 @@ public class AffiliationService(WarcraftdleDbContext dbContext)
 
 	public async Task<int> AddAsync(string name)
 	{
-		if (string.IsNullOrEmpty(name))
+		if (string.IsNullOrWhiteSpace(name))
 		{
 			throw new ApiException($"Name must be specified", HttpStatusCode.BadRequest);
 		}

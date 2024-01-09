@@ -25,22 +25,25 @@ public class ZoneService(WarcraftdleDbContext dbContext)
 
 	public async Task<int> AddAsync(string name)
 	{
-		if (string.IsNullOrEmpty(name))
-		{
-			throw new ApiException($"Name must be specified", HttpStatusCode.BadRequest);
-		}
-
-		if (await dbContext.Zone.AnyAsync(x => x.Name == name))
-		{
-			throw new ApiException($"Zone {name} already exists", HttpStatusCode.BadRequest);
-		}
-
 		var zone = new Zone { Name = name };
 
 		await dbContext.Zone.AddAsync(zone);
 		await dbContext.SaveChangesAsync();
 
 		return zone.Id;
+	}
+
+	public async Task AddMultipleAsync(IEnumerable<string> zoneNames)
+	{
+		if (zoneNames == null || !zoneNames.Any())
+		{
+			throw new ApiException("At least one zone name must be specified", HttpStatusCode.BadRequest);
+		}
+
+		var existingZones = await dbContext.Zone
+			.Where(x => zoneNames.Contains(x.Name))
+			.Select(x => x.Name)
+			.ToListAsync();
 	}
 
 	public async Task DeleteAsync(int id)

@@ -26,6 +26,7 @@ public static class Program
 
 		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 		builder.Services.AddTransient<IValidator<AddWowCharacterRequest>, AddWowCharacterRequestValidator>();
+		builder.Services.AddTransient<IValidator<string>, AddZoneRequestValidator>();
 
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();

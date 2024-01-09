@@ -15,9 +15,14 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 		_dbContext = dbContext;
 
 		RuleFor(request => request.Name)
-			.NotEmpty().WithMessage("{PropertyName} field cannot be empty")
-			.Must(BeValidName).WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.")
-			.Must(BeUnique).WithMessage(request => $"Character with name '{request.Name}' already exists");
+			.NotEmpty()
+			.WithMessage("{PropertyName} field cannot be empty")
+
+			.Must(ValidationHelpers.BeValidName)
+			.WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.")
+
+			.Must(BeUnique)
+			.WithMessage(request => $"Character with name '{request.Name}' already exists");
 
 		RuleFor(request => request.Gender)
 			.Must(gender => _validGenderNames.Contains(gender))
@@ -106,26 +111,6 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 		"Shadowlands",
 		"Dragonflight"
 	];
-
-	private bool BeValidName(string name)
-	{
-		if (string.IsNullOrWhiteSpace(name))
-		{
-			return false;
-		}
-
-		var words = name.Split(' ');
-
-        foreach (var word in words)
-        {
-			if (!char.IsUpper(word[0]) || !word[1..].All(char.IsLower))
-			{
-				return false;
-			}
-        }
-
-        return true;
-	}
 
 	private bool BeUnique(string name)
 	{
