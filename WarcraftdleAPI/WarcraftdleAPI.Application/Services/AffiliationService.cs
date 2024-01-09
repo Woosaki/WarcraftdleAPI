@@ -33,6 +33,19 @@ public class AffiliationService(WarcraftdleDbContext dbContext)
 		return affiliation.Id;
 	}
 
+	public async Task AddMultipleAsync(IEnumerable<string> affiliationNames)
+	{
+		var affiliations = new List<Affiliation>();
+
+		foreach (var name in affiliationNames)
+		{
+			affiliations.Add(new Affiliation { Name = name });
+		}
+
+		await dbContext.Affiliation.AddRangeAsync(affiliations);
+		await dbContext.SaveChangesAsync();
+	}
+
 	public async Task DeleteAsync(int id)
 	{
 		var affiliation = await dbContext.Affiliation.FirstOrDefaultAsync(x => x.Id == id)

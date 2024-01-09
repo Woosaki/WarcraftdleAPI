@@ -35,6 +35,14 @@ public class ZoneController(ZoneService zoneService) : ControllerBase
 		return Created(url, null);
 	}
 
+	[HttpPost("Multiple")]
+	public async Task<IActionResult> AddMultiple([FromBody] IEnumerable<string> zoneNames)
+	{
+		await zoneService.AddMultipleAsync(zoneNames);
+
+		return Ok();
+	}
+
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(int id)
 	{

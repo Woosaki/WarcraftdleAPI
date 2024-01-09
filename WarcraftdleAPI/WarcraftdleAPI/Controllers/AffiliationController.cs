@@ -35,6 +35,14 @@ public class AffiliationController(AffiliationService affiliationService) : Cont
 		return Created(url, null);
 	}
 
+	[HttpPost("Multiple")]
+	public async Task<IActionResult> AddMultiple([FromBody] IEnumerable<string> affiliationNames)
+	{
+		await affiliationService.AddMultipleAsync(affiliationNames);
+
+		return Ok();
+	}
+
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(int id)
 	{
