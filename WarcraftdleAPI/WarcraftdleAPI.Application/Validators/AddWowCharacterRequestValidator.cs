@@ -16,7 +16,8 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 
 		RuleFor(request => request.Name)
 			.NotEmpty().WithMessage("{PropertyName} field cannot be empty")
-			.Must(BeValidName).WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.");
+			.Must(BeValidName).WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.")
+			.Must(BeUnique).WithMessage(request => $"Character with name '{request.Name}' already exists");
 
 		RuleFor(request => request.Gender)
 			.Must(gender => _validGenderNames.Contains(gender))
@@ -126,6 +127,11 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
         return true;
 	}
 
+	private bool BeUnique(string name)
+	{
+		return !_dbContext.WowCharacter.Any(x => x.Name == name);
+	}
+
 	private bool BeValidClass(string? @class) 
 	{
 		if (@class == null) 
@@ -138,7 +144,7 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 
 	private bool ExistInDatabase<T>(string name) where T : class
 	{
-		var existingNames =  GetExistingNames<T>();
+		var existingNames = GetExistingNames<T>();
 		return existingNames.Contains(name);
 	}
 
