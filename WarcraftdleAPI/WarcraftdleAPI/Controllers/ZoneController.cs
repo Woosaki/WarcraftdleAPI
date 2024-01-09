@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WarcraftdleAPI.Application.Dtos.Zone;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Domain.WowCharacter;
 
@@ -25,9 +26,9 @@ public class ZoneController(ZoneService zoneService) : ControllerBase
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Add([FromBody] string name)
+	public async Task<IActionResult> Add([FromBody] AddZoneRequest request)
 	{
-		var zoneId = await zoneService.AddAsync(name);
+		var zoneId = await zoneService.AddAsync(request);
 
 		var controllerName = ControllerContext.ActionDescriptor.ControllerName;
 		var url = $"/{controllerName}/{zoneId}";
@@ -36,9 +37,9 @@ public class ZoneController(ZoneService zoneService) : ControllerBase
 	}
 
 	[HttpPost("Multiple")]
-	public async Task<IActionResult> AddMultiple([FromBody] IEnumerable<string> zoneNames)
+	public async Task<IActionResult> AddMultiple([FromBody] AddMultipleZoneRequest request)
 	{
-		await zoneService.AddMultipleAsync(zoneNames);
+		await zoneService.AddMultipleAsync(request);
 
 		return Ok();
 	}

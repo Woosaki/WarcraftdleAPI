@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using WarcraftdleAPI.Application.Dtos.Affiliation;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI.Application.Validators;
 
-public class AddAffiliationRequestValidator : AbstractValidator<string>
+public class AddAffiliationRequestValidator : AbstractValidator<AddAffiliationRequest>
 {
 	private readonly WarcraftdleDbContext _dbContext;
 
@@ -11,7 +12,7 @@ public class AddAffiliationRequestValidator : AbstractValidator<string>
 	{
 		_dbContext = dbContext;
 
-		RuleFor(request => request)
+		RuleFor(request => request.Name)
 			.NotEmpty()
 			.WithMessage("Affiliation name cannot be empty")
 

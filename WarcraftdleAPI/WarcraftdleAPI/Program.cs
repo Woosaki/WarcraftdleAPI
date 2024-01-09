@@ -1,7 +1,9 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using WarcraftdleAPI.Application.Dtos.Affiliation;
 using WarcraftdleAPI.Application.Dtos.WowCharacter;
+using WarcraftdleAPI.Application.Dtos.Zone;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Application.Validators;
 using WarcraftdleAPI.Infrastructure;
@@ -26,8 +28,10 @@ public static class Program
 
 		builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 		builder.Services.AddTransient<IValidator<AddWowCharacterRequest>, AddWowCharacterRequestValidator>();
-		builder.Services.AddTransient<IValidator<string>, AddZoneRequestValidator>();
-		builder.Services.AddTransient<IValidator<string>, AddAffiliationRequestValidator>();
+		builder.Services.AddTransient<IValidator<AddZoneRequest>, AddZoneRequestValidator>();
+		builder.Services.AddTransient<IValidator<AddAffiliationRequest>, AddAffiliationRequestValidator>();
+		builder.Services.AddTransient<IValidator<AddMultipleAffiliationRequest>, AddMultipleAffiliationRequestValidator>();
+		builder.Services.AddTransient<IValidator<AddMultipleZoneRequest>, AddMultipleZoneRequestValidator>();
 
 		builder.Services.AddControllers();
 		builder.Services.AddEndpointsApiExplorer();

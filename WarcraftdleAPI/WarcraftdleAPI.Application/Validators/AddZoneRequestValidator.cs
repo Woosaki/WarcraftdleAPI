@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using WarcraftdleAPI.Application.Dtos.Zone;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI.Application.Validators;
 
-public class AddZoneRequestValidator : AbstractValidator<string>
+public class AddZoneRequestValidator : AbstractValidator<AddZoneRequest>
 {
     private readonly WarcraftdleDbContext _dbContext;
 
@@ -11,7 +12,7 @@ public class AddZoneRequestValidator : AbstractValidator<string>
     {
         _dbContext = dbContext;
 
-		RuleFor(request => request)
+		RuleFor(request => request.Name)
 			.NotEmpty()
 			.WithMessage("Zone name cannot be empty")
 
@@ -19,6 +20,6 @@ public class AddZoneRequestValidator : AbstractValidator<string>
 			.WithMessage("Zone name must start with an uppercase letter and contain only letters after that.")
 
 			.Must(name => !_dbContext.Zone.Any(x => x.Name == name))
-			.WithMessage(zoneName => $"Zone '{zoneName}' already exists");
+			.WithMessage(zone => $"Zone '{zone.Name}' already exists");
 	}
 }

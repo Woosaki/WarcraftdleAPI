@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
+using WarcraftdleAPI.Application.Dtos.Zone;
+using WarcraftdleAPI.Application.Validators;
 using WarcraftdleAPI.Domain.Exceptions;
 using WarcraftdleAPI.Domain.WowCharacter;
 using WarcraftdleAPI.Infrastructure;
@@ -23,9 +26,9 @@ public class ZoneService(WarcraftdleDbContext dbContext)
 		return zone;
 	}
 
-	public async Task<int> AddAsync(string name)
+	public async Task<int> AddAsync(AddZoneRequest request)
 	{
-		var zone = new Zone { Name = name };
+		var zone = new Zone { Name = request.Name };
 
 		await dbContext.Zone.AddAsync(zone);
 		await dbContext.SaveChangesAsync();
@@ -33,11 +36,11 @@ public class ZoneService(WarcraftdleDbContext dbContext)
 		return zone.Id;
 	}
 
-	public async Task AddMultipleAsync(IEnumerable<string> zoneNames)
+	public async Task AddMultipleAsync(AddMultipleZoneRequest request)
 	{
 		var zones = new List<Zone>();
 
-		foreach (var name in zoneNames)
+		foreach (var name in request.ZoneNames)
 		{
 			zones.Add(new Zone { Name = name });
 		}
