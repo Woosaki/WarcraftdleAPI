@@ -15,4 +15,10 @@
     <ProjectReference Include="..\WarcraftdleAPI.Infrastructure\WarcraftdleAPI.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\Affiliation\" />
+    <Folder Include="Validators\NewFolder\" />
+    <Folder Include="Validators\WowCharacter\" />
+  </ItemGroup>
+
 </Project>

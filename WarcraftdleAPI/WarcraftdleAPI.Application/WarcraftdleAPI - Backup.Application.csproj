@@ -15,4 +15,8 @@
     <ProjectReference Include="..\WarcraftdleAPI.Infrastructure\WarcraftdleAPI.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\NewFolder\" />
+  </ItemGroup>
+
 </Project>

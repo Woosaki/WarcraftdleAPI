@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
+using WarcraftdleAPI.Application.Dtos.Affiliations;
 using WarcraftdleAPI.Domain.Exceptions;
 using WarcraftdleAPI.Domain.WowCharacter;
 using WarcraftdleAPI.Infrastructure;
@@ -23,24 +24,27 @@ public class AffiliationService(WarcraftdleDbContext dbContext)
 		return affiliation;
 	}
 
-	public async Task<int> AddAsync(string name)
+	public async Task<int> AddAsync(AddAffiliationRequest request)
 	{
-		if (string.IsNullOrEmpty(name))
-		{
-			throw new ApiException($"Name must be specified", HttpStatusCode.BadRequest);
-		}
-
-		if (await dbContext.Affiliation.AnyAsync(x => x.Name == name))
-		{
-			throw new ApiException($"Affiliation with name {name} already exists", HttpStatusCode.BadRequest);
-		}
-
-		var affiliation = new Affiliation { Name = name };
+		var affiliation = new Affiliation { Name = request.Name };
 
 		await dbContext.Affiliation.AddAsync(affiliation);
 		await dbContext.SaveChangesAsync();
 
 		return affiliation.Id;
+	}
+
+	public async Task AddMultipleAsync(AddMultipleAffiliationRequest request)
+	{
+		var affiliations = new List<Affiliation>();
+
+		foreach (var name in request.AffiliationNames)
+		{
+			affiliations.Add(new Affiliation { Name = name });
+		}
+
+		await dbContext.Affiliation.AddRangeAsync(affiliations);
+		await dbContext.SaveChangesAsync();
 	}
 
 	public async Task DeleteAsync(int id)

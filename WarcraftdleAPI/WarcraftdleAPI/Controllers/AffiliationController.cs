@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections;
+﻿using Microsoft.AspNetCore.Mvc;
+using WarcraftdleAPI.Application.Dtos.Affiliations;
 using WarcraftdleAPI.Application.Services;
 using WarcraftdleAPI.Domain.WowCharacter;
 
@@ -27,14 +26,22 @@ public class AffiliationController(AffiliationService affiliationService) : Cont
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Add([FromBody] string name)
+	public async Task<IActionResult> Add([FromBody] AddAffiliationRequest request)
 	{
-		var affiliationId = await affiliationService.AddAsync(name);
+		var affiliationId = await affiliationService.AddAsync(request);
 
 		var controllerName = ControllerContext.ActionDescriptor.ControllerName;
 		var url = $"/{controllerName}/{affiliationId}";
 
 		return Created(url, null);
+	}
+
+	[HttpPost("Multiple")]
+	public async Task<IActionResult> AddMultiple([FromBody] AddMultipleAffiliationRequest request)
+	{
+		await affiliationService.AddMultipleAsync(request);
+
+		return Ok();
 	}
 
 	[HttpDelete("{id}")]
