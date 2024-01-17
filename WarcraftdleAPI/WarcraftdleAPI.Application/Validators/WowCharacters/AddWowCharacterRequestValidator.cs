@@ -38,17 +38,23 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 
         RuleFor(request => request.Expansions)
             .Must(expansions => expansions.Any())
-            .WithMessage("{PropertyName} must contain at least one item");
+            .WithMessage("{PropertyName} must contain at least one item")
 
-        RuleForEach(request => request.Expansions)
+            .Must(expansions => expansions.Count() <= 3)
+			.WithMessage("{PropertyName} cannot have more than 3 items");
+
+		RuleForEach(request => request.Expansions)
             .Must(expansion => _validExpansionNames.Contains(expansion))
             .WithMessage("Invalid Expansion: {PropertyValue}");
 
         RuleFor(request => request.Affiliations)
             .Must(affiliations => affiliations.Any())
-            .WithMessage("{PropertyName} must contain at least one item");
+            .WithMessage("{PropertyName} must contain at least one item")
 
-        RuleForEach(request => request.Affiliations)
+			.Must(affiliations => affiliations.Count() <= 3)
+			.WithMessage("{PropertyName} cannot have more than 3 items");
+
+		RuleForEach(request => request.Affiliations)
             .Must(ExistInDatabase<Affiliation>)
             .WithMessage("Affiliation not found: {PropertyValue}");
 
