@@ -51,6 +51,33 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 		return wowCharacterDto;
 	}
 
+	public async Task<WowCharacterDto> GetRandomAsync()
+	{
+		var characterCount = await dbContext.WowCharacter.CountAsync();
+
+		var randomIndex = new Random().Next(0, characterCount);
+
+		var wowCharacterDto = await dbContext.WowCharacter
+			.Skip(randomIndex).Take(1)
+			.Select(x=> new WowCharacterDto
+			(
+				x.Id,
+				x.Name,
+				x.Photo,
+				x.Gender.Name,
+				x.Race.Name,
+				x.Class!.Name,
+				x.Expansions.Select(e => e.Name).ToList(),
+				x.Affiliations.Select(a => a.Name).ToList(),
+				x.Zones.Select(z => z.Name).ToList()
+			))
+			.FirstOrDefaultAsync()
+			?? throw new ApiException($"There are no characters", HttpStatusCode.NotFound);
+
+		return wowCharacterDto;
+	}
+
+
 	public async Task<int> AddAsync(AddWowCharacterRequest request)
 	{
 		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Gender);

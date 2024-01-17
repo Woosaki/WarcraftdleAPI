@@ -24,6 +24,14 @@ public class WowCharacterController(WowCharacterService wowCharacterService) : C
 		return Ok(wowCharacter);
 	}
 
+	[HttpGet("random")]
+	public async Task<ActionResult<WowCharacterDto>> GetRandom()
+	{
+		var wowCharacter = await wowCharacterService.GetRandomAsync();
+
+		return Ok(wowCharacter);
+	}
+
 	[HttpPost]
 	public async Task<IActionResult> Add([FromBody] AddWowCharacterRequest request)
 	{
