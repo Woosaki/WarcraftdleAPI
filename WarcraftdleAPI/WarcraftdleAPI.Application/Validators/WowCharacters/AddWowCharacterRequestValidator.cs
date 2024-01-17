@@ -64,9 +64,12 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
         //Zone rules
         RuleFor(request => request.Zones)
             .Must(zones => zones.Any())
-            .WithMessage("{PropertyName} must contain at least one item");
+            .WithMessage("{PropertyName} must contain at least one item")
 
-        RuleForEach(request => request.Zones)
+			.Must(zones => zones.Count() <= 3)
+			.WithMessage("{PropertyName} cannot have more than 3 items");
+
+		RuleForEach(request => request.Zones)
             .Must(ExistInDatabase<Zone>)
             .WithMessage("Zone not found: {PropertyValue}");
     }
