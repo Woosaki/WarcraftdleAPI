@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace WarcraftdleAPI.Application.Validators;
+﻿namespace WarcraftdleAPI.Application.Validators;
 
 public static class ValidationHelpers
 {
@@ -15,6 +13,11 @@ public static class ValidationHelpers
 
 		foreach (var word in words)
 		{
+			if (word.Equals("of") || word.Equals("the"))
+			{
+				continue;
+			}
+
 			if (!char.IsUpper(word[0]) || !word[1..].All(char.IsLower))
 			{
 				return false;
