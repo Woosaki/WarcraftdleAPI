@@ -49,8 +49,15 @@ public class AffiliationService(WarcraftdleDbContext dbContext)
 
     public async Task DeleteAsync(int id)
     {
-        var affiliation = await dbContext.Affiliation.FirstOrDefaultAsync(x => x.Id == id)
+        var affiliation = await dbContext.Affiliation
+            .Include(a => a.WowCharacters)
+            .FirstOrDefaultAsync(x => x.Id == id)
             ?? throw new ApiException($"Affiliation with id {id} could not be found", HttpStatusCode.NotFound);
+
+        if (affiliation.WowCharacters.Any())
+        {
+            throw new ApiException($"Affiliation with id {id} cannot be deleted because it is used by one or more characters", HttpStatusCode.BadRequest);
+        }
 
         dbContext.Affiliation.Remove(affiliation);
         await dbContext.SaveChangesAsync();

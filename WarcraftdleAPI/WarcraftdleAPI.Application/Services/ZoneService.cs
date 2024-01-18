@@ -49,8 +49,15 @@ public class ZoneService(WarcraftdleDbContext dbContext)
 
     public async Task DeleteAsync(int id)
     {
-        var zone = await dbContext.Zone.FirstOrDefaultAsync(x => x.Id == id)
+        var zone = await dbContext.Zone
+            .Include(z => z.WowCharacters)
+            .FirstOrDefaultAsync(x => x.Id == id)
             ?? throw new ApiException($"Zone with id {id} could not be found", HttpStatusCode.NotFound);
+
+        if (zone.WowCharacters.Any())
+        {
+            throw new ApiException($"Zone with id {id} cannot be deleted because it is used by one or more characters", HttpStatusCode.BadRequest);
+        }
 
         dbContext.Zone.Remove(zone);
         await dbContext.SaveChangesAsync();
