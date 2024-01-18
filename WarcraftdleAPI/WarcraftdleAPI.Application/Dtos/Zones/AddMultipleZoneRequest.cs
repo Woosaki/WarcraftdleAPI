@@ -2,6 +2,5 @@
 
 public record AddMultipleZoneRequest
 (
-	IEnumerable<string> ZoneNames
+    IEnumerable<string> ZoneNames
 );
-

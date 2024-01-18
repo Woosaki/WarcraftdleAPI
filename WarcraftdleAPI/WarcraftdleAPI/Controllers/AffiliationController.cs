@@ -9,47 +9,46 @@ namespace WarcraftdleAPI.Controllers;
 [ApiController]
 public class AffiliationController(AffiliationService affiliationService) : ControllerBase
 {
-	[HttpGet]
-	public async Task<ActionResult<IEnumerable<Affiliation>>> Get()
-	{
-		var affiliations = await affiliationService.GetAsync();
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Affiliation>>> Get()
+    {
+        var affiliations = await affiliationService.GetAsync();
 
-		return Ok(affiliations);
-	}
+        return Ok(affiliations);
+    }
 
-	[HttpGet("{id}")]
-	public async Task<ActionResult<Affiliation>> GetById(int id)
-	{
-		var affiliation = await affiliationService.GetByIdAsync(id);
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Affiliation>> GetById(int id)
+    {
+        var affiliation = await affiliationService.GetByIdAsync(id);
 
-		return Ok(affiliation);
-	}
+        return Ok(affiliation);
+    }
 
-	[HttpPost]
-	public async Task<IActionResult> Add([FromBody] AddAffiliationRequest request)
-	{
-		var affiliationId = await affiliationService.AddAsync(request);
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] AddAffiliationRequest request)
+    {
+        var affiliationId = await affiliationService.AddAsync(request);
 
-		var controllerName = ControllerContext.ActionDescriptor.ControllerName;
-		var url = $"/{controllerName}/{affiliationId}";
+        var controllerName = ControllerContext.ActionDescriptor.ControllerName;
+        var url = $"/{controllerName}/{affiliationId}";
 
-		return Created(url, null);
-	}
+        return Created(url, null);
+    }
 
-	[HttpPost("Multiple")]
-	public async Task<IActionResult> AddMultiple([FromBody] AddMultipleAffiliationRequest request)
-	{
-		await affiliationService.AddMultipleAsync(request);
+    [HttpPost("Multiple")]
+    public async Task<IActionResult> AddMultiple([FromBody] AddMultipleAffiliationRequest request)
+    {
+        await affiliationService.AddMultipleAsync(request);
 
-		return Ok();
-	}
+        return Ok();
+    }
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> Delete(int id)
-	{
-		await affiliationService.DeleteAsync(id);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await affiliationService.DeleteAsync(id);
 
-		return Ok();
-	}
-
+        return Ok();
+    }
 }

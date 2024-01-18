@@ -2,5 +2,5 @@
 
 public record AddMultipleAffiliationRequest
 (
-	IEnumerable<string> AffiliationNames
+    IEnumerable<string> AffiliationNames
 );

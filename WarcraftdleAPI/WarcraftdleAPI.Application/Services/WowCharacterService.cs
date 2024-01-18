@@ -9,114 +9,114 @@ namespace WarcraftdleAPI.Application.Services;
 
 public class WowCharacterService(WarcraftdleDbContext dbContext)
 {
-	public async Task<IEnumerable<WowCharacterDto>> GetAsync(string? q)
-	{
-		var query = dbContext.WowCharacter.AsQueryable();
+    public async Task<IEnumerable<WowCharacterDto>> GetAsync(string? q)
+    {
+        var query = dbContext.WowCharacter.AsQueryable();
 
-		if (!string.IsNullOrWhiteSpace(q))
-		{
-			query = query.Where(x => x.Name.Contains(q, StringComparison.CurrentCultureIgnoreCase));
-		}
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            query = query.Where(x => x.Name.Contains(q, StringComparison.CurrentCultureIgnoreCase));
+        }
 
-		var wowCharactersDtos = await query
-			.Select(x => new WowCharacterDto
-			(
-				x.Id,
-				x.Name,
-				x.Photo,
-				x.Gender.Name,
-				x.Race.Name,
-				x.Class == null ? null : x.Class.Name,
-				x.Expansions.Select(e => e.Name).ToList(),
-				x.Affiliations.Select(a => a.Name).ToList(),
-				x.Zones.Select(z => z.Name).ToList()
-			))
-			.ToListAsync();
+        var wowCharactersDtos = await query
+            .Select(x => new WowCharacterDto
+            (
+                x.Id,
+                x.Name,
+                x.Photo,
+                x.Gender.Name,
+                x.Race.Name,
+                x.Class == null ? null : x.Class.Name,
+                x.Expansions.Select(e => e.Name).ToList(),
+                x.Affiliations.Select(a => a.Name).ToList(),
+                x.Zones.Select(z => z.Name).ToList()
+            ))
+            .ToListAsync();
 
-		return wowCharactersDtos;
-	}
+        return wowCharactersDtos;
+    }
 
-	public async Task<WowCharacterDto> GetByIdAsync(int id)
-	{
-		var wowCharacterDto = await dbContext.WowCharacter
-			.Where(x => x.Id == id)
-			.Select(x => new WowCharacterDto
-			(
-				x.Id,
-				x.Name,
-				x.Photo,
-				x.Gender.Name,
-				x.Race.Name,
-				x.Class == null ? null : x.Class.Name,
-				x.Expansions.Select(e => e.Name).ToList(),
-				x.Affiliations.Select(a => a.Name).ToList(),
-				x.Zones.Select(z => z.Name).ToList()
-			))
-			.FirstOrDefaultAsync()
-			?? throw new ApiException($"WowCharacter with id {id} could not be found", HttpStatusCode.NotFound);
+    public async Task<WowCharacterDto> GetByIdAsync(int id)
+    {
+        var wowCharacterDto = await dbContext.WowCharacter
+            .Where(x => x.Id == id)
+            .Select(x => new WowCharacterDto
+            (
+                x.Id,
+                x.Name,
+                x.Photo,
+                x.Gender.Name,
+                x.Race.Name,
+                x.Class == null ? null : x.Class.Name,
+                x.Expansions.Select(e => e.Name).ToList(),
+                x.Affiliations.Select(a => a.Name).ToList(),
+                x.Zones.Select(z => z.Name).ToList()
+            ))
+            .FirstOrDefaultAsync()
+            ?? throw new ApiException($"WowCharacter with id {id} could not be found", HttpStatusCode.NotFound);
 
-		return wowCharacterDto;
-	}
+        return wowCharacterDto;
+    }
 
-	public async Task<WowCharacterDto> GetRandomAsync()
-	{
-		var characterCount = await dbContext.WowCharacter.CountAsync();
+    public async Task<WowCharacterDto> GetRandomAsync()
+    {
+        var characterCount = await dbContext.WowCharacter.CountAsync();
 
-		var randomIndex = new Random().Next(0, characterCount);
+        var randomIndex = new Random().Next(0, characterCount);
 
-		var wowCharacterDto = await dbContext.WowCharacter
-			.Skip(randomIndex).Take(1)
-			.Select(x => new WowCharacterDto
-			(
-				x.Id,
-				x.Name,
-				x.Photo,
-				x.Gender.Name,
-				x.Race.Name,
-				x.Class == null ? null : x.Class.Name,
-				x.Expansions.Select(e => e.Name).ToList(),
-				x.Affiliations.Select(a => a.Name).ToList(),
-				x.Zones.Select(z => z.Name).ToList()
-			))
-			.FirstOrDefaultAsync()
-			?? throw new ApiException($"There are no characters", HttpStatusCode.NotFound);
+        var wowCharacterDto = await dbContext.WowCharacter
+            .Skip(randomIndex).Take(1)
+            .Select(x => new WowCharacterDto
+            (
+                x.Id,
+                x.Name,
+                x.Photo,
+                x.Gender.Name,
+                x.Race.Name,
+                x.Class == null ? null : x.Class.Name,
+                x.Expansions.Select(e => e.Name).ToList(),
+                x.Affiliations.Select(a => a.Name).ToList(),
+                x.Zones.Select(z => z.Name).ToList()
+            ))
+            .FirstOrDefaultAsync()
+            ?? throw new ApiException($"There are no characters", HttpStatusCode.NotFound);
 
-		return wowCharacterDto;
-	}
+        return wowCharacterDto;
+    }
 
-	public async Task<int> AddAsync(AddWowCharacterRequest request)
-	{
-		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Gender);
-		var race = await dbContext.Race.FirstOrDefaultAsync(x => x.Name == request.Race);
-		var @class = await dbContext.Class.FirstOrDefaultAsync(x => x.Name == request.Class);
-		var expansions = await dbContext.Expansion.Where(x => request.Expansions.Contains(x.Name)).ToListAsync();
-		var affiliations = await dbContext.Affiliation.Where(x => request.Affiliations.Contains(x.Name)).ToListAsync();
-		var zones = await dbContext.Zone.Where(x => request.Zones.Contains(x.Name)).ToListAsync();
+    public async Task<int> AddAsync(AddWowCharacterRequest request)
+    {
+        var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Gender);
+        var race = await dbContext.Race.FirstOrDefaultAsync(x => x.Name == request.Race);
+        var @class = await dbContext.Class.FirstOrDefaultAsync(x => x.Name == request.Class);
+        var expansions = await dbContext.Expansion.Where(x => request.Expansions.Contains(x.Name)).ToListAsync();
+        var affiliations = await dbContext.Affiliation.Where(x => request.Affiliations.Contains(x.Name)).ToListAsync();
+        var zones = await dbContext.Zone.Where(x => request.Zones.Contains(x.Name)).ToListAsync();
 
-		var wowCharacter = new WowCharacter
-		{
-			Name = request.Name,
-			Photo = request.Photo,
-			Gender = gender!,
-			Race = race!,
-			Class = @class,
-			Expansions = expansions,
-			Affiliations = affiliations,
-			Zones = zones
-		};
+        var wowCharacter = new WowCharacter
+        {
+            Name = request.Name,
+            Photo = request.Photo,
+            Gender = gender!,
+            Race = race!,
+            Class = @class,
+            Expansions = expansions,
+            Affiliations = affiliations,
+            Zones = zones
+        };
 
-		await dbContext.WowCharacter.AddAsync(wowCharacter);
-		await dbContext.SaveChangesAsync();
+        await dbContext.WowCharacter.AddAsync(wowCharacter);
+        await dbContext.SaveChangesAsync();
 
-		return wowCharacter.Id;
-	}
+        return wowCharacter.Id;
+    }
 
-	public async Task DeleteAsync(int id)
-	{
-		var wowCharacter = await dbContext.WowCharacter.FirstOrDefaultAsync(x => x.Id == id)
-			?? throw new ApiException($"WowCharacter with id {id} could not be found", HttpStatusCode.NotFound);
+    public async Task DeleteAsync(int id)
+    {
+        var wowCharacter = await dbContext.WowCharacter.FirstOrDefaultAsync(x => x.Id == id)
+            ?? throw new ApiException($"WowCharacter with id {id} could not be found", HttpStatusCode.NotFound);
 
-		dbContext.WowCharacter.Remove(wowCharacter);
-		await dbContext.SaveChangesAsync();
-	}
+        dbContext.WowCharacter.Remove(wowCharacter);
+        await dbContext.SaveChangesAsync();
+    }
 }

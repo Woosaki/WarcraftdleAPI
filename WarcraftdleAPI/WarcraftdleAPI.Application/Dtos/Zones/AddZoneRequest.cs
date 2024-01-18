@@ -2,5 +2,5 @@
 
 public record AddZoneRequest
 (
-	string Name
+    string Name
 );
