@@ -9,16 +9,11 @@ namespace WarcraftdleAPI.Application.Services;
 
 public class WowCharacterService(WarcraftdleDbContext dbContext)
 {
-    public async Task<IEnumerable<WowCharacterDto>> GetAsync(string? q)
+    public async Task<IEnumerable<WowCharacterDto>> GetAsync(string? startsWith)
     {
-        var query = dbContext.WowCharacter.AsQueryable();
+        var wowCharacters = dbContext.WowCharacter.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(q))
-        {
-            query = query.Where(x => x.Name.Contains(q, StringComparison.CurrentCultureIgnoreCase));
-        }
-
-        var wowCharactersDtos = await query
+        var wowCharactersDtos = await wowCharacters
             .Select(x => new WowCharacterDto
             (
                 x.Id,
@@ -30,10 +25,15 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
                 x.Expansions.Select(e => e.Name).ToList(),
                 x.Affiliations.Select(a => a.Name).ToList(),
                 x.Zones.Select(z => z.Name).ToList()
-            ))
-            .ToListAsync();
+            )).ToListAsync();
 
-        return wowCharactersDtos;
+        if (startsWith == null)
+        {
+            return wowCharactersDtos;
+        }
+
+        return wowCharactersDtos
+           .Where(w => w.Name.StartsWith(startsWith, StringComparison.InvariantCultureIgnoreCase));
     }
 
     public async Task<WowCharacterDto> GetByIdAsync(int id)

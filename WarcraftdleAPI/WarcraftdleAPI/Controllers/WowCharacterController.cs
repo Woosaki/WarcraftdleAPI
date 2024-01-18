@@ -9,9 +9,9 @@ namespace WarcraftdleAPI.Controllers;
 public class WowCharacterController(WowCharacterService wowCharacterService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get([FromQuery] string? q)
+    public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get([FromQuery] string? startsWith)
     {
-        var wowCharacters = await wowCharacterService.GetAsync(q);
+        var wowCharacters = await wowCharacterService.GetAsync(startsWith);
 
         return Ok(wowCharacters);
     }
