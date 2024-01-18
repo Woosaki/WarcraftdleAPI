@@ -33,6 +33,8 @@ public static class BuilderExtensions
 
 	public static void ConfigureServices(this WebApplicationBuilder builder)
 	{
+		builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
 		builder.Services.AddScoped<AffiliationService>();
 		builder.Services.AddScoped<ZoneService>();
 		builder.Services.AddScoped<WowCharacterService>();
