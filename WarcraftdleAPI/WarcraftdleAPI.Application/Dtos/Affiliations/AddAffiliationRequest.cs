@@ -2,5 +2,5 @@
 
 public record AddAffiliationRequest
 (
-	string Name
+    string Name
 );

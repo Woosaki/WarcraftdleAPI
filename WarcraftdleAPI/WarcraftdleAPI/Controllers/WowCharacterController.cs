@@ -8,38 +8,46 @@ namespace WarcraftdleAPI.Controllers;
 [ApiController]
 public class WowCharacterController(WowCharacterService wowCharacterService) : ControllerBase
 {
-	[HttpGet]
-	public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get()
-	{
-		var wowCharacters = await wowCharacterService.GetAsync();
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get([FromQuery] string? startsWith)
+    {
+        var wowCharacters = await wowCharacterService.GetAsync(startsWith);
 
-		return Ok(wowCharacters);
-	}
+        return Ok(wowCharacters);
+    }
 
-	[HttpGet("{id}")]
-	public async Task<ActionResult<WowCharacterDto>> GetById(int id)
-	{
-		var wowCharacter = await wowCharacterService.GetByIdAsync(id);
+    [HttpGet("{id}")]
+    public async Task<ActionResult<WowCharacterDto>> GetById(int id)
+    {
+        var wowCharacter = await wowCharacterService.GetByIdAsync(id);
 
-		return Ok(wowCharacter);
-	}
+        return Ok(wowCharacter);
+    }
 
-	[HttpPost]
-	public async Task<IActionResult> Add([FromBody] AddWowCharacterRequest request)
-	{
-		var wowCharacterId = await wowCharacterService.AddAsync(request);
+    [HttpGet("random")]
+    public async Task<ActionResult<WowCharacterDto>> GetRandom()
+    {
+        var wowCharacter = await wowCharacterService.GetRandomAsync();
 
-		var controllerName = ControllerContext.ActionDescriptor.ControllerName;
-		var url = $"/{controllerName}/{wowCharacterId}";
+        return Ok(wowCharacter);
+    }
 
-		return Created(url, null);
-	}
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] AddWowCharacterRequest request)
+    {
+        var wowCharacterId = await wowCharacterService.AddAsync(request);
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> Delete(int id)
-	{
-		await wowCharacterService.DeleteAsync(id);
+        var controllerName = ControllerContext.ActionDescriptor.ControllerName;
+        var url = $"/{controllerName}/{wowCharacterId}";
 
-		return Ok();
-	}
+        return Created(url, null);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await wowCharacterService.DeleteAsync(id);
+
+        return Ok();
+    }
 }

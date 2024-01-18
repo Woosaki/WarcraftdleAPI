@@ -36,25 +36,37 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
             .Must(BeValidClass)
             .WithMessage("Invalid {PropertyName}: {PropertyValue}");
 
+        // Expansion rules
         RuleFor(request => request.Expansions)
             .Must(expansions => expansions.Any())
-            .WithMessage("{PropertyName} must contain at least one item");
+            .WithMessage("{PropertyName} must contain at least one item")
+
+            .Must(expansions => expansions.Count() <= 3)
+            .WithMessage("{PropertyName} cannot have more than 3 items");
 
         RuleForEach(request => request.Expansions)
             .Must(expansion => _validExpansionNames.Contains(expansion))
             .WithMessage("Invalid Expansion: {PropertyValue}");
 
+        //Affiliation rules
         RuleFor(request => request.Affiliations)
             .Must(affiliations => affiliations.Any())
-            .WithMessage("{PropertyName} must contain at least one item");
+            .WithMessage("{PropertyName} must contain at least one item")
+
+            .Must(affiliations => affiliations.Count() <= 3)
+            .WithMessage("{PropertyName} cannot have more than 3 items");
 
         RuleForEach(request => request.Affiliations)
             .Must(ExistInDatabase<Affiliation>)
             .WithMessage("Affiliation not found: {PropertyValue}");
 
+        //Zone rules
         RuleFor(request => request.Zones)
             .Must(zones => zones.Any())
-            .WithMessage("{PropertyName} must contain at least one item");
+            .WithMessage("{PropertyName} must contain at least one item")
+
+            .Must(zones => zones.Count() <= 3)
+            .WithMessage("{PropertyName} cannot have more than 3 items");
 
         RuleForEach(request => request.Zones)
             .Must(ExistInDatabase<Zone>)

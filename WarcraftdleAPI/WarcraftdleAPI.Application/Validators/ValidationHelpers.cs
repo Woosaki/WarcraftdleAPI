@@ -1,26 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace WarcraftdleAPI.Application.Validators;
+﻿namespace WarcraftdleAPI.Application.Validators;
 
 public static class ValidationHelpers
 {
-	public static bool BeValidName(string name)
-	{
-		if (string.IsNullOrWhiteSpace(name))
-		{
-			return false;
-		}
+    public static bool BeValidName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return false;
+        }
 
-		var words = name.Split(' ');
+        var words = name.Split(' ');
 
-		foreach (var word in words)
-		{
-			if (!char.IsUpper(word[0]) || !word[1..].All(char.IsLower))
-			{
-				return false;
-			}
-		}
+        foreach (var word in words)
+        {
+            if (word.Equals("of") || word.Equals("the"))
+            {
+                continue;
+            }
 
-		return true;
-	}
+            if (!char.IsUpper(word[0]) || !word[1..].All(char.IsLower))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

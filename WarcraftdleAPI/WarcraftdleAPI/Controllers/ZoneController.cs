@@ -9,46 +9,46 @@ namespace WarcraftdleAPI.Controllers;
 [ApiController]
 public class ZoneController(ZoneService zoneService) : ControllerBase
 {
-	[HttpGet]
-	public async Task<ActionResult<IEnumerable<Zone>>> Get()
-	{
-		var zones = await zoneService.GetAsync();
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Zone>>> Get()
+    {
+        var zones = await zoneService.GetAsync();
 
-		return Ok(zones);
-	}
+        return Ok(zones);
+    }
 
-	[HttpGet("{id}")]
-	public async Task<ActionResult<Zone>> GetById(int id)
-	{
-		var zone = await zoneService.GetByIdAsync(id);
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Zone>> GetById(int id)
+    {
+        var zone = await zoneService.GetByIdAsync(id);
 
-		return Ok(zone);
-	}
+        return Ok(zone);
+    }
 
-	[HttpPost]
-	public async Task<IActionResult> Add([FromBody] AddZoneRequest request)
-	{
-		var zoneId = await zoneService.AddAsync(request);
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] AddZoneRequest request)
+    {
+        var zoneId = await zoneService.AddAsync(request);
 
-		var controllerName = ControllerContext.ActionDescriptor.ControllerName;
-		var url = $"/{controllerName}/{zoneId}";
+        var controllerName = ControllerContext.ActionDescriptor.ControllerName;
+        var url = $"/{controllerName}/{zoneId}";
 
-		return Created(url, null);
-	}
+        return Created(url, null);
+    }
 
-	[HttpPost("Multiple")]
-	public async Task<IActionResult> AddMultiple([FromBody] AddMultipleZoneRequest request)
-	{
-		await zoneService.AddMultipleAsync(request);
+    [HttpPost("Multiple")]
+    public async Task<IActionResult> AddMultiple([FromBody] AddMultipleZoneRequest request)
+    {
+        await zoneService.AddMultipleAsync(request);
 
-		return Ok();
-	}
+        return Ok();
+    }
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> Delete(int id)
-	{
-		await zoneService.DeleteAsync(id);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await zoneService.DeleteAsync(id);
 
-		return Ok();
-	}
+        return Ok();
+    }
 }
