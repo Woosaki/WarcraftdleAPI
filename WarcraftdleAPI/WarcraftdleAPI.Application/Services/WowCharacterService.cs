@@ -9,9 +9,16 @@ namespace WarcraftdleAPI.Application.Services;
 
 public class WowCharacterService(WarcraftdleDbContext dbContext)
 {
-	public async Task<IEnumerable<WowCharacterDto>> GetAsync()
+	public async Task<IEnumerable<WowCharacterDto>> GetAsync(string? q)
 	{
-		var wowCharactersDtos = await dbContext.WowCharacter
+		var query = dbContext.WowCharacter.AsQueryable();
+
+		if (!string.IsNullOrWhiteSpace(q))
+		{
+			query = query.Where(x => x.Name.Contains(q, StringComparison.CurrentCultureIgnoreCase));
+		}
+
+		var wowCharactersDtos = await query
 			.Select(x => new WowCharacterDto
 			(
 				x.Id,
@@ -19,7 +26,7 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 				x.Photo,
 				x.Gender.Name,
 				x.Race.Name,
-				x.Class!.Name,
+				x.Class == null ? null : x.Class.Name,
 				x.Expansions.Select(e => e.Name).ToList(),
 				x.Affiliations.Select(a => a.Name).ToList(),
 				x.Zones.Select(z => z.Name).ToList()
@@ -40,7 +47,7 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 				x.Photo,
 				x.Gender.Name,
 				x.Race.Name,
-				x.Class!.Name,
+				x.Class == null ? null : x.Class.Name,
 				x.Expansions.Select(e => e.Name).ToList(),
 				x.Affiliations.Select(a => a.Name).ToList(),
 				x.Zones.Select(z => z.Name).ToList()
@@ -59,14 +66,14 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 
 		var wowCharacterDto = await dbContext.WowCharacter
 			.Skip(randomIndex).Take(1)
-			.Select(x=> new WowCharacterDto
+			.Select(x => new WowCharacterDto
 			(
 				x.Id,
 				x.Name,
 				x.Photo,
 				x.Gender.Name,
 				x.Race.Name,
-				x.Class!.Name,
+				x.Class == null ? null : x.Class.Name,
 				x.Expansions.Select(e => e.Name).ToList(),
 				x.Affiliations.Select(a => a.Name).ToList(),
 				x.Zones.Select(z => z.Name).ToList()
@@ -77,7 +84,6 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 		return wowCharacterDto;
 	}
 
-
 	public async Task<int> AddAsync(AddWowCharacterRequest request)
 	{
 		var gender = await dbContext.Gender.FirstOrDefaultAsync(x => x.Name == request.Gender);
@@ -87,8 +93,8 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 		var affiliations = await dbContext.Affiliation.Where(x => request.Affiliations.Contains(x.Name)).ToListAsync();
 		var zones = await dbContext.Zone.Where(x => request.Zones.Contains(x.Name)).ToListAsync();
 
-		var wowCharacter = new WowCharacter 
-		{ 
+		var wowCharacter = new WowCharacter
+		{
 			Name = request.Name,
 			Photo = request.Photo,
 			Gender = gender!,
