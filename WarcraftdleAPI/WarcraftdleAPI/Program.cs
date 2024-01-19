@@ -11,12 +11,13 @@ public static class Program
         builder.ConfigureDatabase();
         builder.ConfigureFluentValidation();
         builder.ConfigureServices();
+        builder.ConfigureCors();
 
         var app = builder.Build();
 
         app.ConfigureSwagger();
         app.ConfigureMiddleware();
-
+        app.UseCors("CorsPolicy");
         app.UseAuthorization();
         app.MapControllers();
 
