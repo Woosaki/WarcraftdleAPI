@@ -58,7 +58,7 @@ public static class BuilderExtensions
         {
             options.AddPolicy("CorsPolicy", corsBuilder =>
             {
-                corsBuilder.WithOrigins(developmentOrigin, productionOrigin)
+                corsBuilder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
