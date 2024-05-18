@@ -1,4 +1,5 @@
 using WarcraftdleAPI.Extensions;
+using WarcraftdleAPI.Infrastructure.Extensions;
 
 namespace WarcraftdleAPI;
 
@@ -8,7 +9,7 @@ public static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.ConfigureDatabase();
+        builder.Services.AddInfrastructure(builder.Configuration);
         builder.ConfigureFluentValidation();
         builder.ConfigureServices();
         builder.ConfigureCors();

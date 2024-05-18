@@ -14,13 +14,6 @@ namespace WarcraftdleAPI.Extensions;
 
 public static class BuilderExtensions
 {
-    public static void ConfigureDatabase(this WebApplicationBuilder builder)
-    {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
-        builder.Services.AddDbContext<WarcraftdleDbContext>(
-            options => options.UseNpgsql(connectionString));
-    }
-
     public static void ConfigureFluentValidation(this WebApplicationBuilder builder)
     {
         builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
