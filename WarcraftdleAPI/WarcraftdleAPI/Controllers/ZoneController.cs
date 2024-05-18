@@ -1,54 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using WarcraftdleAPI.Application.Dtos.Zones;
 using WarcraftdleAPI.Application.Services;
+using WarcraftdleAPI.Application.Zones.Commands.CreateZone;
+using WarcraftdleAPI.Application.Zones.Commands.DeleteZone;
+using WarcraftdleAPI.Application.Zones.Dtos;
+using WarcraftdleAPI.Application.Zones.Queries.GetZoneById;
+using WarcraftdleAPI.Application.Zones.Queries.GetZones;
 using WarcraftdleAPI.Domain.WowCharacter;
 
 namespace WarcraftdleAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class ZoneController(ZoneService zoneService) : ControllerBase
+public class ZoneController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Zone>>> Get()
+    public async Task<ActionResult<IEnumerable<ZoneDto>>> GetAll()
     {
-        var zones = await zoneService.GetAsync();
+        var zones = await mediator.Send(new GetZonesQuery());
 
         return Ok(zones);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Zone>> GetById(int id)
+    public async Task<ActionResult<ZoneDto?>> GetById(int id)
     {
-        var zone = await zoneService.GetByIdAsync(id);
+        var zone = await mediator.Send(new GetZoneByIdQuery(id));
 
         return Ok(zone);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] AddZoneRequest request)
+    public async Task<IActionResult> Create(CreateZoneCommand command)
     {
-        var zoneId = await zoneService.AddAsync(request);
+        int id = await mediator.Send(command);
 
-        var controllerName = ControllerContext.ActionDescriptor.ControllerName;
-        var url = $"/{controllerName}/{zoneId}";
-
-        return Created(url, null);
-    }
-
-    [HttpPost("Multiple")]
-    public async Task<IActionResult> AddMultiple([FromBody] AddMultipleZoneRequest request)
-    {
-        await zoneService.AddMultipleAsync(request);
-
-        return Ok();
+        return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await zoneService.DeleteAsync(id);
+        await mediator.Send(new DeleteZoneCommand(id));
 
-        return Ok();
+        return NoContent();
     }
 }
