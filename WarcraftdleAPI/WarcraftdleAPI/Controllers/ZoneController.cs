@@ -1,13 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WarcraftdleAPI.Application.Dtos.Zones;
-using WarcraftdleAPI.Application.Services;
+using WarcraftdleAPI.Application.Zones.Dtos;
+using WarcraftdleAPI.Application.Zones.Queries.GetZones;
+using WarcraftdleAPI.Application.Zones.Queries.GetZoneById;
 using WarcraftdleAPI.Application.Zones.Commands.CreateZone;
 using WarcraftdleAPI.Application.Zones.Commands.DeleteZone;
-using WarcraftdleAPI.Application.Zones.Dtos;
-using WarcraftdleAPI.Application.Zones.Queries.GetZoneById;
-using WarcraftdleAPI.Application.Zones.Queries.GetZones;
-using WarcraftdleAPI.Domain.WowCharacter;
 
 namespace WarcraftdleAPI.Controllers;
 

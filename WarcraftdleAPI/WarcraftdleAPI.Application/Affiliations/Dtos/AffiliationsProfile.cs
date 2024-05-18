@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using System.Globalization;
-using WarcraftdleAPI.Application.Zones.Commands.CreateZone;
+using WarcraftdleAPI.Application.Affiliations.Commands.CreateAffiliation;
 using WarcraftdleAPI.Domain.WowCharacter;
 
-namespace WarcraftdleAPI.Application.Zones.Dtos;
+namespace WarcraftdleAPI.Application.Affiliations.Dtos;
 
-public class ZonesProfile : Profile
+public class AffiliationsProfile : Profile
 {
-    public ZonesProfile()
+    public AffiliationsProfile()
     {
-        CreateMap<Zone, ZoneDto>();
-        CreateMap<CreateZoneCommand, Zone>()
+        CreateMap<Affiliation, AffiliationDto>();
+
+        CreateMap<CreateAffiliationCommand, Affiliation>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => ToTitleCase(src.Name)));
     }
 

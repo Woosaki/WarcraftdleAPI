@@ -1,14 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using WarcraftdleAPI.Application.Dtos.Affiliations;
-using WarcraftdleAPI.Application.Dtos.WowCharacters;
-using WarcraftdleAPI.Application.Dtos.Zones;
-using WarcraftdleAPI.Application.Services;
-using WarcraftdleAPI.Application.Validators.Affiliations;
-using WarcraftdleAPI.Application.Validators.WowCharacters;
-using WarcraftdleAPI.Application.Validators.Zones;
-using WarcraftdleAPI.Infrastructure;
+﻿using WarcraftdleAPI.Application.Services;
 
 namespace WarcraftdleAPI.Extensions;
 
@@ -17,9 +7,6 @@ public static class BuilderExtensions
     public static void ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
-        builder.Services.AddScoped<AffiliationService>();
-        builder.Services.AddScoped<ZoneService>();
         builder.Services.AddScoped<WowCharacterService>();
 
         builder.Services.AddControllers();
