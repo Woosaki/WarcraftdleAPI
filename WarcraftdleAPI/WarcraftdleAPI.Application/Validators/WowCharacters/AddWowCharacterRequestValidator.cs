@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using WarcraftdleAPI.Application.Dtos.WowCharacters;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI.Application.Validators.WowCharacters;

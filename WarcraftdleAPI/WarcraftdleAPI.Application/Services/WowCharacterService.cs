@@ -2,7 +2,7 @@
 using System.Net;
 using WarcraftdleAPI.Application.Dtos.WowCharacters;
 using WarcraftdleAPI.Domain.Exceptions;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 using WarcraftdleAPI.Infrastructure;
 
 namespace WarcraftdleAPI.Application.Services;
@@ -93,7 +93,7 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
         var affiliations = await dbContext.Affiliation.Where(x => request.Affiliations.Contains(x.Name)).ToListAsync();
         var zones = await dbContext.Zone.Where(x => request.Zones.Contains(x.Name)).ToListAsync();
 
-        var wowCharacter = new WowCharacter
+        var wowCharacter = new Character
         {
             Name = request.Name,
             Photo = request.Photo,

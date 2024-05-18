@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WarcraftdleAPI.Domain.Repositories;
+using WarcraftdleAPI.Infrastructure.Repositories;
 
 namespace WarcraftdleAPI.Infrastructure.Extensions;
 
@@ -14,5 +16,8 @@ public static class ServiceCollectionExtensions
             options.UseNpgsql(connectionString)
                 .EnableSensitiveDataLogging();
         });
+
+        services.AddScoped<IZonesRepository, ZonesRepository>();
+        services.AddScoped<IAffiliationsRepository, AffiliationsRepository>();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Globalization;
 using WarcraftdleAPI.Application.Zones.Commands.CreateZone;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Application.Zones.Dtos;
 

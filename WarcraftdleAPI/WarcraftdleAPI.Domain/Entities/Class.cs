@@ -1,6 +1,6 @@
-﻿namespace WarcraftdleAPI.Domain.WowCharacter;
+﻿namespace WarcraftdleAPI.Domain.Entities;
 
-public class Race
+public class Class
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;

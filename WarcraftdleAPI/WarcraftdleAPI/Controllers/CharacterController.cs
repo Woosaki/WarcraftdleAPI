@@ -6,7 +6,7 @@ namespace WarcraftdleAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class WowCharacterController(WowCharacterService wowCharacterService) : ControllerBase
+public class CharacterController(WowCharacterService wowCharacterService) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get([FromQuery] string? startsWith)

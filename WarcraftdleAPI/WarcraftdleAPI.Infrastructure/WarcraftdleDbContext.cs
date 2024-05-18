@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Infrastructure;
 
 public class WarcraftdleDbContext(DbContextOptions<WarcraftdleDbContext> options) : DbContext(options)
 {
-    public DbSet<WowCharacter> WowCharacter { get; set; }
+    public DbSet<Character> WowCharacter { get; set; }
     public DbSet<Race> Race { get; set; }
     public DbSet<Expansion> Expansion { get; set; }
     public DbSet<Class> Class { get; set; }

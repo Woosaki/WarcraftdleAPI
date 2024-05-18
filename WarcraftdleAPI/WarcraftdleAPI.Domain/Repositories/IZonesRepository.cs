@@ -1,4 +1,4 @@
-﻿using WarcraftdleAPI.Domain.WowCharacter;
+﻿using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Domain.Repositories;
 

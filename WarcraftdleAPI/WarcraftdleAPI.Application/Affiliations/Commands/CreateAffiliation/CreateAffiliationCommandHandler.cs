@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using WarcraftdleAPI.Domain.Repositories;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Application.Affiliations.Commands.CreateAffiliation;
 

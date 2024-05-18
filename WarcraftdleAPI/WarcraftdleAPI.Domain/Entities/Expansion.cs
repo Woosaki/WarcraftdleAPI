@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WarcraftdleAPI.Domain.WowCharacter;
+namespace WarcraftdleAPI.Domain.Entities;
 
 public class Expansion
 {
@@ -9,5 +9,5 @@ public class Expansion
     public string? Abbreviation { get; set; }
 
     [JsonIgnore]
-    public IEnumerable<WowCharacter> WowCharacters { get; set; } = null!;
+    public IEnumerable<Character> Characters { get; set; } = null!;
 }

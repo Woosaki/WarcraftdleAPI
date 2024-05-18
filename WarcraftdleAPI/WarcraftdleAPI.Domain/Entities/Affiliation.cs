@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WarcraftdleAPI.Domain.WowCharacter;
+namespace WarcraftdleAPI.Domain.Entities;
 
 public class Affiliation
 {
@@ -8,5 +8,5 @@ public class Affiliation
     public string Name { get; set; } = null!;
 
     [JsonIgnore]
-    public IEnumerable<WowCharacter> WowCharacters { get; set; } = null!;
+    public IEnumerable<Character> Characters { get; set; } = null!;
 }

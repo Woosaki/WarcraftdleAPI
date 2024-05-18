@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using WarcraftdleAPI.Application.Affiliations.Commands.CreateAffiliation;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Application.Affiliations.Dtos;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WarcraftdleAPI.Domain.Repositories;
-using WarcraftdleAPI.Domain.WowCharacter;
+using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Infrastructure.Repositories;
 
