@@ -11,7 +11,7 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 {
     public async Task<IEnumerable<WowCharacterDto>> GetAsync(string? startsWith)
     {
-        var wowCharacters = dbContext.WowCharacter.AsQueryable();
+        var wowCharacters = dbContext.Character.AsQueryable();
 
         var wowCharactersDtos = await wowCharacters
             .Select(x => new WowCharacterDto
@@ -38,7 +38,7 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 
     public async Task<WowCharacterDto> GetByIdAsync(int id)
     {
-        var wowCharacterDto = await dbContext.WowCharacter
+        var wowCharacterDto = await dbContext.Character
             .Where(x => x.Id == id)
             .Select(x => new WowCharacterDto
             (
@@ -60,11 +60,11 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 
     public async Task<WowCharacterDto> GetRandomAsync()
     {
-        var characterCount = await dbContext.WowCharacter.CountAsync();
+        var characterCount = await dbContext.Character.CountAsync();
 
         var randomIndex = new Random().Next(0, characterCount);
 
-        var wowCharacterDto = await dbContext.WowCharacter
+        var wowCharacterDto = await dbContext.Character
             .Skip(randomIndex).Take(1)
             .Select(x => new WowCharacterDto
             (
@@ -105,7 +105,7 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
             Zones = zones
         };
 
-        await dbContext.WowCharacter.AddAsync(wowCharacter);
+        await dbContext.Character.AddAsync(wowCharacter);
         await dbContext.SaveChangesAsync();
 
         return wowCharacter.Id;
@@ -113,10 +113,10 @@ public class WowCharacterService(WarcraftdleDbContext dbContext)
 
     public async Task DeleteAsync(int id)
     {
-        var wowCharacter = await dbContext.WowCharacter.FirstOrDefaultAsync(x => x.Id == id)
+        var wowCharacter = await dbContext.Character.FirstOrDefaultAsync(x => x.Id == id)
             ?? throw new ApiException($"WowCharacter with id {id} could not be found", HttpStatusCode.NotFound);
 
-        dbContext.WowCharacter.Remove(wowCharacter);
+        dbContext.Character.Remove(wowCharacter);
         await dbContext.SaveChangesAsync();
     }
 }

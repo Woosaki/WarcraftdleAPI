@@ -126,7 +126,7 @@ public class AddWowCharacterRequestValidator : AbstractValidator<AddWowCharacter
 
     private bool BeUnique(string name)
     {
-        return !_dbContext.WowCharacter.Any(x => x.Name == name);
+        return !_dbContext.Character.Any(x => x.Name == name);
     }
 
     private bool BeValidClass(string? @class)

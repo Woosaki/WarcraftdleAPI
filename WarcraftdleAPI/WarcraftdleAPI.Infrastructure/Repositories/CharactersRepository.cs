@@ -8,7 +8,7 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
 {
     public async Task<IEnumerable<Character>> GetAsync(string? startsWith = null)
     {
-        var query = dbContext.WowCharacter.AsQueryable();
+        var query = dbContext.Character.AsQueryable();
 
         if(!string.IsNullOrEmpty(startsWith))
         {
@@ -20,7 +20,7 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
 
     public async Task<Character?> GetByIdAsync(int id)
     {
-        var character = await dbContext.WowCharacter
+        var character = await dbContext.Character
             .FirstOrDefaultAsync(x => x.Id == id);
 
         return character;
@@ -28,7 +28,7 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
 
     public async Task<int> CreateAsync(Character character)
     {
-        dbContext.WowCharacter.Add(character);
+        dbContext.Character.Add(character);
         await dbContext.SaveChangesAsync();
 
         return character.Id;
@@ -36,7 +36,7 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
 
     public async Task DeleteAsync(Character character)
     {
-        dbContext.WowCharacter.Remove(character);
+        dbContext.Character.Remove(character);
         await dbContext.SaveChangesAsync();
     }
 }
