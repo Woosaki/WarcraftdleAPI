@@ -21,7 +21,7 @@ public class ZoneController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ZoneDto?>> GetById(int id)
+    public async Task<ActionResult<ZoneDto>> GetById(int id)
     {
         var zone = await mediator.Send(new GetZoneByIdQuery(id));
 

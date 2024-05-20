@@ -1,53 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WarcraftdleAPI.Application.Dtos.WowCharacters;
-using WarcraftdleAPI.Application.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WarcraftdleAPI.Application.Characters.Dtos;
+using WarcraftdleAPI.Application.Characters.Queries.GetCharacters;
+using WarcraftdleAPI.Application.Characters.Queries.GetCharacterById;
+using WarcraftdleAPI.Application.Characters.Commands.CreateCharacter;
+using WarcraftdleAPI.Application.Characters.Commands.DeleteCharacter;
 
 namespace WarcraftdleAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class CharacterController(WowCharacterService wowCharacterService) : ControllerBase
+public class CharacterController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WowCharacterDto>>> Get([FromQuery] string? startsWith)
+    public async Task<ActionResult<IEnumerable<CharacterDto>>> Get([FromQuery] string? startsWith)
     {
-        var wowCharacters = await wowCharacterService.GetAsync(startsWith);
+        var characters = await mediator.Send(new GetCharactersQuery(startsWith));
 
-        return Ok(wowCharacters);
+        return Ok(characters);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<WowCharacterDto>> GetById(int id)
+    public async Task<ActionResult<CharacterDto>> GetById(int id)
     {
-        var wowCharacter = await wowCharacterService.GetByIdAsync(id);
+        var character = await mediator.Send(new GetCharacterByIdQuery(id));
 
-        return Ok(wowCharacter);
-    }
-
-    [HttpGet("random")]
-    public async Task<ActionResult<WowCharacterDto>> GetRandom()
-    {
-        var wowCharacter = await wowCharacterService.GetRandomAsync();
-
-        return Ok(wowCharacter);
+        return Ok(character);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] AddWowCharacterRequest request)
+    public async Task<IActionResult> Create(CreateCharacterCommand command)
     {
-        var wowCharacterId = await wowCharacterService.AddAsync(request);
+        int id = await mediator.Send(command);
 
-        var controllerName = ControllerContext.ActionDescriptor.ControllerName;
-        var url = $"/{controllerName}/{wowCharacterId}";
-
-        return Created(url, null);
+        return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await wowCharacterService.DeleteAsync(id);
+        await mediator.Send(new DeleteCharacterCommand(id));
 
-        return Ok();
+        return NoContent();
     }
 }

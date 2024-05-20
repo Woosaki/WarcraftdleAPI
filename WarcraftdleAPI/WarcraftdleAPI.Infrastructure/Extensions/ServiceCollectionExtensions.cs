@@ -19,5 +19,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IZonesRepository, ZonesRepository>();
         services.AddScoped<IAffiliationsRepository, AffiliationsRepository>();
+        services.AddScoped<ICharactersRepository, CharactersRepository>();
     }
 }
