@@ -8,14 +8,8 @@ namespace WarcraftdleAPI.Application.Characters.Dtos;
 
 public class CharacterProfile : Profile
 {
-    private readonly IAffiliationsRepository _affiliationsRepository;
-    private readonly IZonesRepository _zonesRepository;
-
-    public CharacterProfile(IAffiliationsRepository affiliationsRepository, IZonesRepository zonesRepository)
+    public CharacterProfile()
     {
-        _affiliationsRepository = affiliationsRepository;
-        _zonesRepository = zonesRepository;
-
         CreateMap<Character, CharacterDto>()
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(
                 src => src.Gender.ToString()))
@@ -39,9 +33,7 @@ public class CharacterProfile : Profile
                 src => src.Class != null ? Enum.Parse<Class>(src.Class) : (Class?)null))
             .ForMember(dest => dest.Expansions, opt => opt.MapFrom(
                 src => src.Expansions.Select(e => Enum.Parse<Expansion>(e))))
-            .ForMember(dest => dest.Affiliations, opt => opt.MapFrom(
-                src => src.Affiliations.Select(name => _affiliationsRepository.GetByNameAsync(name).Result)))
-            .ForMember(dest => dest.Zones, opt => opt.MapFrom(
-                src => src.Zones.Select(name => _zonesRepository.GetByNameAsync(name).Result)));
+            .ForMember(dest => dest.Affiliations, opt => opt.Ignore())
+            .ForMember(dest => dest.Zones, opt => opt.Ignore());
     }
 }

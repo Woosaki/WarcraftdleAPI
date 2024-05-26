@@ -5,7 +5,8 @@ using WarcraftdleAPI.Domain.Repositories;
 
 namespace WarcraftdleAPI.Application.Zones.Queries.GetZones;
 
-public class GetZonesQueryHandler(IZonesRepository zonesRepository, IMapper mapper) : IRequestHandler<GetZonesQuery, IEnumerable<ZoneDto>>
+public class GetZonesQueryHandler(IZonesRepository zonesRepository, IMapper mapper)
+    : IRequestHandler<GetZonesQuery, IEnumerable<ZoneDto>>
 {
     public async Task<IEnumerable<ZoneDto>> Handle(GetZonesQuery request, CancellationToken cancellationToken)
     {

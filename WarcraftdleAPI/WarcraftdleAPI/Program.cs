@@ -38,7 +38,7 @@ public static class Program
             app.UseSwaggerUI();
         }
 
-        app.UseMiddleware<ExceptionHandlerMiddleware>();
+        //app.UseMiddleware<ExceptionHandlerMiddleware>();
         app.UseCors("CorsPolicy");
         app.UseAuthorization();
         app.MapControllers();

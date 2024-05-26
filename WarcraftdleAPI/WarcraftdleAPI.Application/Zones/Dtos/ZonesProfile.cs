@@ -15,6 +15,11 @@ public class ZonesProfile : Profile
 
     private static string ToTitleCase(string name)
     {
+        if (string.IsNullOrEmpty(name))
+        {
+            return name;
+        }
+
         var words = name.ToLower().Split(' ');
         var wordsToSkip = new HashSet<string> { "of", "the", "and" };
 

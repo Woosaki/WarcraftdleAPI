@@ -5,7 +5,8 @@ using WarcraftdleAPI.Domain.Entities;
 
 namespace WarcraftdleAPI.Application.Zones.Commands.CreateZone;
 
-public class CreateZoneCommandHandler(IZonesRepository zonesRepository, IMapper mapper) : IRequestHandler<CreateZoneCommand, int>
+public class CreateZoneCommandHandler(IZonesRepository zonesRepository, IMapper mapper)
+    : IRequestHandler<CreateZoneCommand, int>
 {
     public async Task<int> Handle(CreateZoneCommand request, CancellationToken cancellationToken)
     {

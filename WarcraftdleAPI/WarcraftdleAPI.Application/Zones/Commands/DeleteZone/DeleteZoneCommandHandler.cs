@@ -5,7 +5,8 @@ using WarcraftdleAPI.Domain.Repositories;
 
 namespace WarcraftdleAPI.Application.Zones.Commands.DeleteZone;
 
-public class DeleteZoneCommandHandler(IZonesRepository zonesRepository) : IRequestHandler<DeleteZoneCommand>
+public class DeleteZoneCommandHandler(IZonesRepository zonesRepository)
+    : IRequestHandler<DeleteZoneCommand>
 {
     public async Task Handle(DeleteZoneCommand request, CancellationToken cancellationToken)
     {
