@@ -39,4 +39,9 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
         dbContext.Character.Remove(character);
         await dbContext.SaveChangesAsync();
     }
+
+    public bool ExistsWithName(string name)
+    {
+        return dbContext.Character.Any(x => x.Name == name);
+    }
 }

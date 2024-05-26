@@ -8,4 +8,5 @@ public interface ICharactersRepository
     Task<Character?> GetByIdAsync(int id);
     Task<int> CreateAsync(Character character);
     Task DeleteAsync(Character character);
+    bool ExistsWithName(string name);
 }
