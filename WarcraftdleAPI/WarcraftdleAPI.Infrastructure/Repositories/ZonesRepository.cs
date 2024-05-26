@@ -21,6 +21,14 @@ internal class ZonesRepository(WarcraftdleDbContext dbContext) : IZonesRepositor
         return zone;
     }
 
+    public async Task<Zone?> GetByNameAsync(string name)
+    {
+        var zone = await dbContext.Zone
+            .FirstOrDefaultAsync(x => x.Name == name);
+
+        return zone;
+    }
+
     public async Task<int> CreateAsync(Zone zone)
     {
         dbContext.Zone.Add(zone);

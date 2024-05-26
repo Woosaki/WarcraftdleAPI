@@ -21,6 +21,14 @@ internal class AffiliationsRepository(WarcraftdleDbContext dbContext) : IAffilia
         return affiliation;
     }
 
+    public async Task<Affiliation?> GetByNameAsync(string name)
+    {
+        var affiliation = await dbContext.Affiliation
+            .FirstOrDefaultAsync(x => x.Name == name);
+
+        return affiliation;
+    }
+
     public async Task<int> CreateAsync(Affiliation affiliation)
     {
         dbContext.Affiliation.Add(affiliation);
