@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using WarcraftdleAPI.Application.Validators;
 using WarcraftdleAPI.Domain.Entities;
 using WarcraftdleAPI.Domain.Enums;
 using WarcraftdleAPI.Domain.Repositories;
@@ -25,7 +24,7 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
             .NotEmpty()
             .WithMessage("{PropertyName} field cannot be empty")
 
-            .Must(ValidationHelpers.BeValidName)
+            .Matches(@"^([A-Z][a-z]*(\s|$))*[A-Z][a-z]*$")
             .WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.")
 
             .Must(_charactersRepository.ExistsWithName)

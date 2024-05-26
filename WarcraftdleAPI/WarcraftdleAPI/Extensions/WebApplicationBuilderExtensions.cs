@@ -1,19 +1,19 @@
-﻿using WarcraftdleAPI.Application.Services;
+﻿using WarcraftdleAPI.Middlewares;
 
 namespace WarcraftdleAPI.Extensions;
 
-public static class BuilderExtensions
+public static class WebApplicationBuilderExtensions
 {
-    public static void ConfigureServices(this WebApplicationBuilder builder)
+    public static void AddPresentation(this WebApplicationBuilder builder)
     {
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.ConfigureCors();
     }
 
-    public static void ConfigureCors(this WebApplicationBuilder builder)
+    private static void ConfigureCors(this WebApplicationBuilder builder)
     {
         var developmentOrigin = builder.Configuration["CORS:DevelopmentOrigin"];
         var productionOrigin = builder.Configuration["CORS:ProductionOrigin"];
@@ -27,7 +27,7 @@ public static class BuilderExtensions
         {
             options.AddPolicy("CorsPolicy", corsBuilder =>
             {
-                corsBuilder.AllowAnyOrigin()
+                corsBuilder.WithOrigins(developmentOrigin, productionOrigin)
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });
