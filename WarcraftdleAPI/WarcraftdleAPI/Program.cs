@@ -18,13 +18,19 @@ public static class Program
 
         var app = builder.Build();
 
-        using var scope = app.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<WarcraftdleDbContext>();
-
-        if (db.Database.GetPendingMigrations().Any())
+        using (var scope = app.Services.CreateScope())
         {
-            db.Database.Migrate();
-        }
+            var db = scope.ServiceProvider.GetRequiredService<WarcraftdleDbContext>();
+
+            if (db.Database.CanConnect())
+            {
+                if (db.Database.GetPendingMigrations().Any())
+                {
+                    db.Database.Migrate();
+                }
+            }
+            else throw new Exception("Can't connect to the database");
+        }    
 
         if (app.Environment.IsDevelopment())
         {
