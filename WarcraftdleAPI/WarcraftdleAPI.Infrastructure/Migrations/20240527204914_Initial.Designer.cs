@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using WarcraftdleAPI.Domain.Enums;
 using WarcraftdleAPI.Infrastructure;
 
 #nullable disable
@@ -11,8 +12,8 @@ using WarcraftdleAPI.Infrastructure;
 namespace WarcraftdleAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(WarcraftdleDbContext))]
-    [Migration("20240526214843_RemoveEnumTables")]
-    partial class RemoveEnumTables
+    [Migration("20240527204914_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,7 +83,7 @@ namespace WarcraftdleAPI.Infrastructure.Migrations
                     b.Property<int?>("Class")
                         .HasColumnType("integer");
 
-                    b.Property<int[]>("Expansions")
+                    b.Property<Expansion[]>("Expansions")
                         .IsRequired()
                         .HasColumnType("integer[]");
 

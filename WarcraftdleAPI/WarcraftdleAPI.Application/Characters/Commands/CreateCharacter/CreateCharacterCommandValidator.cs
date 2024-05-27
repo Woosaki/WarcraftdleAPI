@@ -27,7 +27,7 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
             .Matches(@"^([A-Z][a-z]*(\s|$))*[A-Z][a-z]*$")
             .WithMessage("{PropertyName} must start with an uppercase letter and contain only letters after that.")
 
-            .Must(_charactersRepository.ExistsWithName)
+            .Must(name => !_charactersRepository.ExistsWithName(name))
             .WithMessage(request => $"Character with name '{request.Name}' already exists");
 
         RuleFor(request => request.Gender)

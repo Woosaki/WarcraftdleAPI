@@ -17,6 +17,7 @@ public class CharacterController(IMediator mediator) : ControllerBase
     {
         var characters = await mediator.Send(new GetCharactersQuery(startsWith));
 
+
         return Ok(characters);
     }
 
