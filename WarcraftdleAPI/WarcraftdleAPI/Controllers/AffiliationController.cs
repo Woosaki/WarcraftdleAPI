@@ -1,54 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WarcraftdleAPI.Application.Dtos.Affiliations;
-using WarcraftdleAPI.Application.Services;
-using WarcraftdleAPI.Domain.WowCharacter;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using WarcraftdleAPI.Application.Affiliations.Dtos;
+using WarcraftdleAPI.Application.Affiliations.Queries.GetAffiliations;
+using WarcraftdleAPI.Application.Affiliations.Queries.GetAffiliationById;
+using WarcraftdleAPI.Application.Affiliations.Commands.CreateAffiliation;
+using WarcraftdleAPI.Application.Affiliations.Commands.DeleteAffiliation;
 
 namespace WarcraftdleAPI.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class AffiliationController(AffiliationService affiliationService) : ControllerBase
+public class AffiliationController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Affiliation>>> Get()
+    public async Task<ActionResult<IEnumerable<AffiliationDto>>> GetAll()
     {
-        var affiliations = await affiliationService.GetAsync();
+        var affiliations = await mediator.Send(new GetAffiliationsQuery());
 
         return Ok(affiliations);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Affiliation>> GetById(int id)
+    public async Task<ActionResult<AffiliationDto>> GetById(int id)
     {
-        var affiliation = await affiliationService.GetByIdAsync(id);
+        var affiliation = await mediator.Send(new GetAffiliationByIdQuery(id));
 
         return Ok(affiliation);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] AddAffiliationRequest request)
+    public async Task<IActionResult> Create(CreateAffiliationCommand command)
     {
-        var affiliationId = await affiliationService.AddAsync(request);
+        int id = await mediator.Send(command);
 
-        var controllerName = ControllerContext.ActionDescriptor.ControllerName;
-        var url = $"/{controllerName}/{affiliationId}";
-
-        return Created(url, null);
-    }
-
-    [HttpPost("Multiple")]
-    public async Task<IActionResult> AddMultiple([FromBody] AddMultipleAffiliationRequest request)
-    {
-        await affiliationService.AddMultipleAsync(request);
-
-        return Ok();
+        return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await affiliationService.DeleteAsync(id);
+        await mediator.Send(new DeleteAffiliationCommand(id));
 
-        return Ok();
+        return NoContent();
     }
 }
