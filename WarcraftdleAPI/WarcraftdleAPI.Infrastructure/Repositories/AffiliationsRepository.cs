@@ -6,11 +6,16 @@ namespace WarcraftdleAPI.Infrastructure.Repositories;
 
 internal class AffiliationsRepository(WarcraftdleDbContext dbContext) : IAffiliationsRepository
 {
-    public async Task<IEnumerable<Affiliation>> GetAllAsync()
+    public async Task<IEnumerable<Affiliation>> GetAsync(IEnumerable<string>? names = null)
     {
-        var affiliations = await dbContext.Affiliation.ToListAsync();
+        var query = dbContext.Affiliation.AsQueryable();
 
-        return affiliations;
+        if (names != null)
+        {
+            query = query.Where(a => names.Contains(a.Name));
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<Affiliation?> GetByIdAsync(int id)

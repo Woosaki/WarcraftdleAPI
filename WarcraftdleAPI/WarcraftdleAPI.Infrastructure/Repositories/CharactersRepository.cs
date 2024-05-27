@@ -15,7 +15,7 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
 
         if (!string.IsNullOrEmpty(startsWith))
         {
-            query = query.Where(x => x.Name.StartsWith(startsWith, StringComparison.InvariantCultureIgnoreCase));
+            query = query.Where(x => x.Name.ToLower().StartsWith(startsWith.ToLower()));
         }
 
         var characters = await query.ToListAsync();
@@ -26,6 +26,8 @@ internal class CharactersRepository(WarcraftdleDbContext dbContext) : ICharacter
     public async Task<Character?> GetByIdAsync(int id)
     {
         var character = await dbContext.Character
+            .Include(c => c.Affiliations)
+            .Include(c => c.Zones)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         return character;

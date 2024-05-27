@@ -10,7 +10,7 @@ public class GetAffiliationsQueryHandler(IAffiliationsRepository affiliationRepo
 {
     public async Task<IEnumerable<AffiliationDto>> Handle(GetAffiliationsQuery request, CancellationToken cancellationToken)
     {
-        var affiliations = await affiliationRepository.GetAllAsync();
+        var affiliations = await affiliationRepository.GetAsync();
         var affiliationDtos = mapper.Map<IEnumerable<AffiliationDto>>(affiliations);
 
         return affiliationDtos;

@@ -10,7 +10,7 @@ public class GetZonesQueryHandler(IZonesRepository zonesRepository, IMapper mapp
 {
     public async Task<IEnumerable<ZoneDto>> Handle(GetZonesQuery request, CancellationToken cancellationToken)
     {
-        var zones = await zonesRepository.GetAllAsync();
+        var zones = await zonesRepository.GetAsync();
         var zoneDtos = mapper.Map<IEnumerable<ZoneDto>>(zones);
 
         return zoneDtos;

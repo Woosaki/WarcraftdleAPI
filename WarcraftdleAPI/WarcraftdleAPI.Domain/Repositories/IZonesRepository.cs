@@ -4,7 +4,7 @@ namespace WarcraftdleAPI.Domain.Repositories;
 
 public interface IZonesRepository
 {
-    Task<IEnumerable<Zone>> GetAllAsync();
+    Task<IEnumerable<Zone>> GetAsync(IEnumerable<string>? names = null);
     Task<Zone?> GetByIdAsync(int id);
     Task<Zone?> GetByNameAsync(string name);
     Task<int> CreateAsync(Zone zone);

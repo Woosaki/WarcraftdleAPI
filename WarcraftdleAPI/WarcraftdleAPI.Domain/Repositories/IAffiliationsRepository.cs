@@ -4,7 +4,7 @@ namespace WarcraftdleAPI.Domain.Repositories;
 
 public interface IAffiliationsRepository
 {
-    Task<IEnumerable<Affiliation>> GetAllAsync();
+    Task<IEnumerable<Affiliation>> GetAsync(IEnumerable<string>? names = null);
     Task<Affiliation?> GetByIdAsync(int id);
     Task<Affiliation?> GetByNameAsync(string name);
     Task<int> CreateAsync(Affiliation zone);

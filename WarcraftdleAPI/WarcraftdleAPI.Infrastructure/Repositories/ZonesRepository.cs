@@ -1,16 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WarcraftdleAPI.Domain.Repositories;
 using WarcraftdleAPI.Domain.Entities;
+using WarcraftdleAPI.Domain.Repositories;
 
 namespace WarcraftdleAPI.Infrastructure.Repositories;
 
 internal class ZonesRepository(WarcraftdleDbContext dbContext) : IZonesRepository
 {
-    public async Task<IEnumerable<Zone>> GetAllAsync()
+    public async Task<IEnumerable<Zone>> GetAsync(IEnumerable<string>? names = null)
     {
-        var zones = await dbContext.Zone.ToListAsync();
+        var query = dbContext.Zone.AsQueryable();
 
-        return zones;
+        if (names != null)
+        {
+            query = query.Where(z => names.Contains(z.Name));
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<Zone?> GetByIdAsync(int id)
