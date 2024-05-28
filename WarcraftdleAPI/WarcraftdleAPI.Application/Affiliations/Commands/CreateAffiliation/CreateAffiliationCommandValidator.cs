@@ -16,7 +16,7 @@ public class CreateAffiliationCommandValidator : AbstractValidator<CreateAffilia
            .WithMessage("Affiliation name cannot be empty.")
 
            .Matches(@"^[a-zA-Z]+( [a-zA-Z]+)*$")
-           .WithMessage("Affiliation name can only contain letters or one space between the words.")
+           .WithMessage("Affiliation name can only contain letters or spaces between the words.")
 
            .Must(name => !_affiliationsRepository.Exists(name))
            .WithMessage(affiliation => $"Affiliation '{affiliation.Name}' already exists.");
