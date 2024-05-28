@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WarcraftdleAPI.Application.Extensions;
 using WarcraftdleAPI.Extensions;
 using WarcraftdleAPI.Infrastructure;
@@ -11,38 +12,52 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
-        builder.AddPresentation();
-        builder.Services.AddApplication();
-        builder.Services.AddInfrastructure(builder.Configuration);
-
-        var app = builder.Build();
-
-        using (var scope = app.Services.CreateScope())
+        try
         {
-            var db = scope.ServiceProvider.GetRequiredService<WarcraftdleDbContext>();
+            var builder = WebApplication.CreateBuilder(args);
+            builder.AddPresentation();
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
 
-            if (db.Database.CanConnect())
+            var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
             {
-                if (db.Database.GetPendingMigrations().Any())
-                {
-                    db.Database.Migrate();
-                }
-            }
-            else throw new Exception("Can't connect to the database");
-        }    
+                var db = scope.ServiceProvider.GetRequiredService<WarcraftdleDbContext>();
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+                if (db.Database.CanConnect())
+                {
+                    if (db.Database.GetPendingMigrations().Any())
+                    {
+                        db.Database.Migrate();
+                    }
+                }
+                else throw new Exception("Can't connect to the database");
+            }
+
+            app.UseSerilogRequestLogging();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseCors("CorsPolicy");
+            app.UseAuthorization();
+            app.MapControllers();
+
+            app.Run();
         }
 
-        app.UseMiddleware<ExceptionHandlerMiddleware>();
-        app.UseCors("CorsPolicy");
-        app.UseAuthorization();
-        app.MapControllers();
-
-        app.Run();
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Application startup failed");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
 }

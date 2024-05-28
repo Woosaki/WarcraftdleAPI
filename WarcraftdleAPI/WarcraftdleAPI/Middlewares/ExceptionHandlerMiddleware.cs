@@ -3,7 +3,7 @@ using WarcraftdleAPI.Domain.Exceptions;
 
 namespace WarcraftdleAPI.Middlewares;
 
-public class ExceptionHandlerMiddleware(RequestDelegate next)
+public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
 {
     public async Task Invoke(HttpContext context)
     {
@@ -25,6 +25,7 @@ public class ExceptionHandlerMiddleware(RequestDelegate next)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
+            logger.LogError("{Message}", exception.Message);
         }
     }
 }
