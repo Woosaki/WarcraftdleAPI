@@ -22,13 +22,13 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
 
         RuleFor(request => request.Name)
             .NotEmpty()
-            .WithMessage("{PropertyName} field cannot be empty.")
+            .WithMessage("{PropertyName} field cannot be empty")
 
             .Matches(@"^([A-Z][a-z]*(\s|$))*[A-Z][a-z]*$")
-            .WithMessage("Each word in {PropertyName} must start with an uppercase letter and contain only lowercase letters after that.")
+            .WithMessage("Each word in {PropertyName} must start with an uppercase letter and contain only lowercase letters after that")
 
             .Must(name => !_charactersRepository.ExistsWithName(name))
-            .WithMessage(request => $"Character with name '{request.Name}' already exists.");
+            .WithMessage(request => $"Character with name '{request.Name}' already exists");
 
         RuleFor(request => request.Gender)
             .Must(_validGenderNames.Contains)

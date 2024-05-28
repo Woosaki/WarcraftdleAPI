@@ -40,7 +40,7 @@ public class CreateCharacterCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Name field cannot be empty.");
+            .WithErrorMessage("Name field cannot be empty");
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class CreateCharacterCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Character with name 'Existing Character' already exists.");
+            .WithErrorMessage("Character with name 'Existing Character' already exists");
     }
 
 
@@ -110,7 +110,7 @@ public class CreateCharacterCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Each word in Name must start with an uppercase letter and contain only lowercase letters after that.");
+            .WithErrorMessage("Each word in Name must start with an uppercase letter and contain only lowercase letters after that");
     }
 
     [Theory]

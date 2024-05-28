@@ -27,7 +27,7 @@ public class CreateAffiliationCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Affiliation name cannot be empty.");
+            .WithErrorMessage("Affiliation name cannot be empty");
     }
 
     [Theory]
@@ -46,7 +46,7 @@ public class CreateAffiliationCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Affiliation name can only contain letters or spaces between the words.");
+            .WithErrorMessage("Affiliation name can only contain letters or spaces between the words");
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class CreateAffiliationCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage($"Affiliation 'Existing Affiliation' already exists.");
+            .WithErrorMessage($"Affiliation 'Existing Affiliation' already exists");
     }
 
     [Fact]

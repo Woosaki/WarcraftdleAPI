@@ -27,7 +27,7 @@ public class CreateZoneCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Zone name cannot be empty.");
+            .WithErrorMessage("Zone name cannot be empty");
     }
 
     [Theory]
@@ -46,7 +46,7 @@ public class CreateZoneCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage("Zone name can only contain letters or spaces between the words.");
+            .WithErrorMessage("Zone name can only contain letters or spaces between the words");
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class CreateZoneCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Name)
-            .WithErrorMessage($"Zone 'Existing Zone' already exists.");
+            .WithErrorMessage($"Zone 'Existing Zone' already exists");
     }
 
     [Fact]

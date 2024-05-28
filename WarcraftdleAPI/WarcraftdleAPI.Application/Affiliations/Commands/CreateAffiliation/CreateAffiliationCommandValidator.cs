@@ -13,12 +13,12 @@ public class CreateAffiliationCommandValidator : AbstractValidator<CreateAffilia
 
         RuleFor(request => request.Name)
            .NotEmpty()
-           .WithMessage("Affiliation name cannot be empty.")
+           .WithMessage("Affiliation name cannot be empty")
 
            .Matches(@"^[a-zA-Z]+( [a-zA-Z]+)*$")
-           .WithMessage("Affiliation name can only contain letters or spaces between the words.")
+           .WithMessage("Affiliation name can only contain letters or spaces between the words")
 
            .Must(name => !_affiliationsRepository.Exists(name))
-           .WithMessage(affiliation => $"Affiliation '{affiliation.Name}' already exists.");
+           .WithMessage(affiliation => $"Affiliation '{affiliation.Name}' already exists");
     }
 }
