@@ -2,7 +2,6 @@
 using WarcraftdleAPI.Application.Characters.Commands.CreateCharacter;
 using WarcraftdleAPI.Domain.Entities;
 using WarcraftdleAPI.Domain.Enums;
-using WarcraftdleAPI.Domain.Repositories;
 
 namespace WarcraftdleAPI.Application.Characters.Dtos;
 
@@ -32,7 +31,7 @@ public class CharacterProfile : Profile
             .ForMember(dest => dest.Class, opt => opt.MapFrom(
                 src => src.Class != null ? Enum.Parse<Class>(src.Class) : (Class?)null))
             .ForMember(dest => dest.Expansions, opt => opt.MapFrom(
-                src => src.Expansions.Select(e => Enum.Parse<Expansion>(e))))
+                src => src.Expansions.Select(Enum.Parse<Expansion>)))
             .ForMember(dest => dest.Affiliations, opt => opt.Ignore())
             .ForMember(dest => dest.Zones, opt => opt.Ignore());
     }
