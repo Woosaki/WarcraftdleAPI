@@ -317,6 +317,25 @@ public class CreateCharacterCommandValidatorTests
             .WithErrorMessage("Expansions cannot have more than 3 items");
     }
 
+    [Fact]
+    public void Validator_ForDuplicateExpansions_ShouldHaveValidationError()
+    {
+        // Arrange
+        var command = new CreateCharacterCommand
+        {
+            Expansions = ["Expansion", "Expansion"],
+            Affiliations = [],
+            Zones = []
+        };
+
+        // Act
+        var result = _validator.TestValidate(command);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(command => command.Expansions)
+            .WithErrorMessage("Expansions cannot have duplicate items");
+    }
+
     [Theory]
     [InlineData("Classic")]
     [InlineData("TBC")]
@@ -414,6 +433,25 @@ public class CreateCharacterCommandValidatorTests
     }
 
     [Fact]
+    public void Validator_ForDuplicateAffiliations_ShouldHaveValidationError()
+    {
+        // Arrange
+        var command = new CreateCharacterCommand
+        {
+            Expansions = [],
+            Affiliations = ["Affiliation", "Affiliation"],
+            Zones = []
+        };
+
+        // Act
+        var result = _validator.TestValidate(command);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(command => command.Affiliations)
+            .WithErrorMessage("Affiliations cannot have duplicate items");
+    }
+
+    [Fact]
     public void Validator_ForExistingAffiliation_ShouldNotHaveValidationError()
     {
         // Arrange
@@ -494,6 +532,25 @@ public class CreateCharacterCommandValidatorTests
         // Assert
         result.ShouldHaveValidationErrorFor(command => command.Zones)
             .WithErrorMessage("Zones cannot have more than 3 items");
+    }
+
+    [Fact]
+    public void Validator_ForDuplicateZones_ShouldHaveValidationError()
+    {
+        // Arrange
+        var command = new CreateCharacterCommand
+        {
+            Expansions = [],
+            Affiliations = [],
+            Zones = ["Zone", "Zone"]
+        };
+
+        // Act
+        var result = _validator.TestValidate(command);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(command => command.Zones)
+            .WithErrorMessage("Zones cannot have duplicate items");
     }
 
     [Fact]

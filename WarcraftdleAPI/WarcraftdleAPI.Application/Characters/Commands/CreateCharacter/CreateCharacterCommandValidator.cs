@@ -48,7 +48,10 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
             .WithMessage("{PropertyName} must contain at least one item")
 
             .Must(expansions => expansions.Count() <= 3)
-            .WithMessage("{PropertyName} cannot have more than 3 items");
+            .WithMessage("{PropertyName} cannot have more than 3 items")
+
+            .Must(HaveNoDuplicates)
+            .WithMessage("{PropertyName} cannot have duplicate items");
 
         RuleForEach(request => request.Expansions)
             .Must(_validExpansionNames.Contains)
@@ -60,7 +63,10 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
             .WithMessage("{PropertyName} must contain at least one item")
 
             .Must(affiliations => affiliations.Count() <= 3)
-            .WithMessage("{PropertyName} cannot have more than 3 items");
+            .WithMessage("{PropertyName} cannot have more than 3 items")
+
+            .Must(HaveNoDuplicates)
+            .WithMessage("{PropertyName} cannot have duplicate items");
 
         RuleForEach(request => request.Affiliations)
             .Must(ExistInDatabase<Affiliation>)
@@ -72,7 +78,10 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
             .WithMessage("{PropertyName} must contain at least one item")
 
             .Must(zones => zones.Count() <= 3)
-            .WithMessage("{PropertyName} cannot have more than 3 items");
+            .WithMessage("{PropertyName} cannot have more than 3 items")
+
+            .Must(HaveNoDuplicates)
+            .WithMessage("{PropertyName} cannot have duplicate items");
 
         RuleForEach(request => request.Zones)
             .Must(ExistInDatabase<Zone>)
@@ -86,6 +95,11 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
     private static readonly string[] _validRaceNames = Enum.GetNames<Race>();
 
     private static readonly string[] _validExpansionNames = Enum.GetNames<Expansion>();
+
+    private bool HaveNoDuplicates(IEnumerable<string> strings)
+    {
+        return strings.Distinct().Count() == strings.Count();
+    }
 
     private bool ExistInDatabase<T>(string value) where T : class
     {
