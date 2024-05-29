@@ -16,12 +16,15 @@ jobs:
       uses: actions/setup-dotnet@v4.0.0
       with:
         dotnet-version: 8.0.x
+        
+    - name: Change to project directory
+      run: cd WarcraftdleAPI
 
     - name: Restore dependencies
-      run: dotnet restore ./WarcraftdleAPI
+      run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore ./WarcraftdleAPI
+      run: dotnet build --no-restore
 
     - name: Test
-      run: dotnet test ./WarcraftdleAPI
+      run: dotnet test
