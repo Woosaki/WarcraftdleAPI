@@ -17,14 +17,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
-    - name: Change to project directory
-      run: cd WarcraftdleAPI
-
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore WarcraftdleAPI/WarcraftdleAPI.sln
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build WarcraftdleAPI/WarcraftdleAPI.sln --no-restore
 
     - name: Test
-      run: dotnet test
+      run: dotnet test WarcraftdleAPI/WarcraftdleAPI.sln
