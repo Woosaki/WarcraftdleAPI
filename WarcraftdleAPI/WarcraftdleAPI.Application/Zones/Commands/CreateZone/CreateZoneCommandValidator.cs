@@ -13,12 +13,12 @@ public class CreateZoneCommandValidator : AbstractValidator<CreateZoneCommand>
 
         RuleFor(request => request.Name)
            .NotEmpty()
-           .WithMessage("Zone name cannot be empty.")
+           .WithMessage("Zone name cannot be empty")
 
            .Matches(@"^[a-zA-Z]+( [a-zA-Z]+)*$")
-           .WithMessage("Zone name can only contain letters or one space between the words.")
+           .WithMessage("Zone name can only contain letters or spaces between the words")
 
            .Must(name => !_zonesRepository.Exists(name))
-           .WithMessage(zone => $"Zone '{zone.Name}' already exists.");
+           .WithMessage(zone => $"Zone '{zone.Name}' already exists");
     }
 }

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarcraftdleAPI.Application"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F409B09E-0D38-4381-9D52-343EE4560CB0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WarcraftdleAPI.Application.Tests", "tests\WarcraftdleAPI.Application.Tests\WarcraftdleAPI.Application.Tests.csproj", "{766280C3-0B47-4973-9515-1B8527403432}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F409B09E-0D38-4381-9D52-343EE4560CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{766280C3-0B47-4973-9515-1B8527403432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{766280C3-0B47-4973-9515-1B8527403432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{766280C3-0B47-4973-9515-1B8527403432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{766280C3-0B47-4973-9515-1B8527403432}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
